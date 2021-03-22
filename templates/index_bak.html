@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <script src="/static/vue/vue.js"></script>
+  <script src="/static/jq-1.11.js"></script>
+  <script src="/static/bootstrap4/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/style.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/styles.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/stylee.css">
+  <script>
+    //获取json数据
+    var getData = function () {
+      return fetch("http://120.78.142.50:8890/Data/").then(res => {
+        return res.json();
+      })
+    }
+    //源数据
+    var source = {};
+    //业务
+    var list = [];
+    //频率
+    var reta = [];
+
+    var init = function () {
+      var _self = this;
+      getData().then(res => {
+        source = res.data;
+        //console.log(res)
+        //收集所有频率
+        console.log("开始执行")
+        for (var k in res.data[1]) {
+          if (!reta.some(r => {
+              return r.key == k;
+            })) {
+            reta.push({
+              key: k,
+              title: k,
+              list: res.data[1][k].split(',')
+            });
+          }
+        }
+        console.log(reta)
+
+        //收集所有业务
+        for (var k in res.data[1]) {
+          var arr = res.data[1][k].split(',')
+          arr.map(a => {
+            var str = "";
+            a = a.replace(/\[/g, "")
+            a = a.replace(/\]/g, "")
+            if (!list.some(r => {
+                if (r.key == a) {
+                  if (!r.list.includes(k)) {
+                    r.list.push(k);
+                  }
+                  return true;
+                }
+                return false;
+              })) {
+              list.push({
+                key: a,
+                title: a,
+                list: [k]
+              });
+            }
+          })
+        }
+        //console.log(list)
+      })
+    }
+
+    init();
+  </script>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      background-color: #eee;
+    }
+
+    #app .card {
+      -moz-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      margin: 6px 0px;
+    }
+
+    #app .card:hover {
+      border: 1px solid rgb(121, 187, 255);
+    }
+  </style>
+
+  <style>
+    .Pc_Layout {
+      min-width: 1200px;
+      width: 60%;
+      margin: 0 auto;
+      background-color: #fff;
+      height: 100vh;
+      padding: 18px 21px;
+      overflow: auto;
+    }
+  </style>
+  <style>
+    .Mobile_Layout {
+      background-color: #fff;
+      height: 100vh;
+      padding: 18px 21px;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" :class="isMobile?'Mobile_Layout':'Pc_Layout'">
+    <div style="text-align: center;">
+      <button type="button" class="btn btn-primary btn-sm" @click="clearFilter">清空所有操作</button>
+    </div>
+    <div v-if="isReta">
+      <div class="card" v-for="n in reta" :key="n.key" @click="toBuss(n)">
+        <div class="card-body">
+          <div>频率:${n.title}</div>
+          <div>业务</div>
+          <div v-for="l in n.list" :key="l" style="margin:6px;">
+            <button type="button" class="btn btn-outline-primary"> ${buss_title(l)}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!isReta">
+      <div class="card" v-for="n in list" :key="n.key" @click="toReta(n)">
+        <div class="card-body">
+          <div>业务:${n.title}</div>
+          <div>频率:</div>
+          <span v-for="l in n.list" :key="l">
+            <button style="margin:6px 9px;" type="button" class="btn btn-outline-secondary">${buss_title(l)}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          isMobile: false,
+          //是否展示业务页面
+          isReta: true,
+          //过滤条件
+          filter: {
+            reta: '',
+            buss: '',
+          },
+          //源数据
+          source: {},
+          //业务
+          list: [],
+          //频率
+          reta: [],
+        }
+      },
+      created() {
+        this.Mobile();
+      },
+      methods: {
+        init() {
+          var _self = this;
+          getData().then(res => {
+            _self.source = res.data;
+            // console.log(res)
+            //收集所有频率
+            for (var k in res.data[1]) {
+              if (!_self.reta.some(r => {
+                  return r.key == k;
+                })) {
+                _self.reta.push({
+                  key: k,
+                  title: k,
+                  list: res["无线电业务"][k].split(',')
+                });
+              }
+            }
+            // console.log(_self.reta)
+
+            //收集所有业务
+            for (var k in res.data[1]) {
+              var arr = res.data[1][k].split(',')
+              arr.map(a => {
+                var str = "";
+                a = a.replace(/\[/g, "")
+                a = a.replace(/\]/g, "")
+                if (!_self.list.some(r => {
+                    if (r.key == a) {
+                      if (!r.list.includes(k)) {
+                        r.list.push(k);
+                      }
+                      return true;
+                    }
+                    return false;
+                  })) {
+                  _self.list.push({
+                    key: a,
+                    title: a,
+                    list: [k]
+                  });
+                }
+              })
+            }
+            //console.log(_self.list)
+          })
+        },
+        Mobile() {
+          if ((navigator.userAgent.match(
+              /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+            ))) {
+            document.querySelector('head').append(
+              '<meta id="moblie_meta" name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>'
+            );
+            this.isMobile = true;
+          } else {
+            if (document.querySelector('#moblie_meta')) {
+              document.querySelector('#moblie_meta').remove();
+            }
+            this.isMobile = false;
+          }
+        },
+        toBuss(node) {
+          this.isReta = false;
+          this.filter.buss = '';
+          console.log(node)
+        },
+        toReta(node) {
+          this.Reta = '';
+          this.isReta = true;
+          console.log(node)
+        },
+        clearFilter() {
+          this.isReta = true;
+          this.filter.reta = '';
+          this.filter.buss = '';
+        }
+      },
+      computed: {
+        //判别业务名称 是否带有[]括号 
+        buss_title() {
+          var _self = this;
+          return (title) => {
+            if (/^\[.*\]$/.test(title)) {
+              var str = "";
+              title = title.replace(/\[/g, "")
+              title = title.replace(/\]/g, "")
+              str = `${title} --- 二级业务`
+              return str;
+            } else {
+              return title;
+            }
+          }
+        }
+      },
+      delimiters: ['${', '}']
+    })
+  </script>
+</body>
+
+</html>

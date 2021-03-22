@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap4/css/style-starter.css">
+    <title>Echarts 可视化</title>
+    <style type="text/css">
+
+    .image1{
+        width:200px;
+        height:200px;
+        border-radius:200px;
+    }
+
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="cards__heading" style="margin-left: 1.7em;margin-right: 1.7em;background-color: #1da1f2;padding:20px 20px 0px 20px;margin-bottom: 0px;border-radius:0px;" >
+    <div class="row" >
+    <div class="col-2 pr-lg-2 chart-grid">
+            <img class="image1" src="/static/img/lb2.bmp" style="width: 100px;height:100px">
+    </div>
+    <div class="col-6 pr-lg-2 chart-grid" style="height:100px; display:table">
+        <h1 style="color:#f4f4f4; display:table-cell; vertical-align:middle">无线电发射设备型号核准</h1>
+    </div>
+    <div class="col-4 pr-lg-2 chart-grid">
+    </div>
+    </div>
+</div>
+
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             无线电设备知识问答
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+              <form name="myform" class="form-inline my-0 mx-0 my-lg-0">
+                <select  class="custom-select" id="place" name="place">
+                <option value="1">华为技术有限公司生产的无线电发射设备有哪些？</option>
+                <option value="2">发射功率为≤1W的无线电发射设备有哪些？</option>
+                <option value="3">占用带宽为≤35MHz的无线电设备有哪些？</option>
+                <option value="4">调幅电台由哪些生产厂商生产？</option>
+                <option value="5">杂散发射限值为≤-30dBm的无线电发射设备有哪些？</option>
+               </select>
+                <button class="btn btn btn-info " type="button" name="button" value="干扰检测" onclick="print()">提交</button>
+              </form>
+              <div style="margin-top: 5px;padding: 0;border: 0" class="alert alert-dismissible alert-info">
+                  <p id="p1" align="left" >{{data14}}</p>
+              </div>
+              <!-- //bar chart -->
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             无线电设备知识图谱
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+             <div id="chart1" style="width: 100%;height: 450px;top: 0px;border: 2px solid #eeeeee;"></div>
+
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             厂商生产设备种类Top10
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+              <div id="main1" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //bar chart -->
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             无线电发射设备种类Top5
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+                <div id="main2" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             设备发射功率统计图
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+              <div id="main3" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //bar chart -->
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             设备发证时间统计图
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+                <div id="main4" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             设备网络通讯标准统计图
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+              <div id="main5" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //bar chart -->
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             设备占用带宽统计图
+            </div>
+            <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+                <div id="main6" style="width: 100%;height: 450px;display:inline-block"></div>
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% comment %}<script type="text/javascript">
+ function print(){
+   var a=myform.name.value;
+   var str=a;
+    console.log(str);
+      $.ajax({
+              url:"/shebei1/",
+          data: {    // JSON格式封装数据
+              'wenti' :str,
+
+    },
+              type:"post",
+              datatype:"json",
+                success:function(data14){
+                  $("#p1").text(data14.data14);
+
+                  console.log(data14);
+                }})
+
+  }
+</script>{% endcomment %}
+
+
+<script type="text/javascript">
+ function print(){
+   var place= $("#place").find("option:selected").text();
+   var b= $("#place").find("option:selected").val();
+   var a=place
+   if (a != ""){
+   var str=a;
+    console.log(str);
+      $.ajax({
+              url:"/shebei1/",
+
+
+          data: {    // JSON格式封装数据
+              'wenti' :str,
+
+    },
+              type:"post",
+              datatype:"json",
+                success:function(data14){
+                  $("#p1").text(data14.data14);
+                {% comment %}var mp3Url = "http://120.78.142.50:8890/static/radio/"+b+".mp3";
+                var audio= new Audio(mp3Url);//这里的路径写上mp3文件在项目中的绝对路径
+                audio.play();{% endcomment %}
+                {% comment %}setTimeout(autoPlay(b),10);{% endcomment %}
+
+                  console.log(data14);
+                }});
+        autoPlay(b);
+  }}
+</script>
+<script language="javascript" type="text/javascript">
+    function autoPlay(b) {
+        var mp3Url = "http://120.78.142.50:8890/static/radio/"+b+".mp3";
+        var audio= new Audio(mp3Url);//这里的路径写上mp3文件在项目中的绝对路径
+        audio.play();
+    }
+</script>
+
+<script type="text/javascript">
+	// 基于准备好的容器(这里的容器是id为chart1的div)，初始化echarts实例
+	var chart1 = echarts.init(document.getElementById("chart1"));
+    var lan=[
+        {% for lan in data12 %}
+            "{{ lan}}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    ];
+    var ji=[
+        {% for ji in data13 %}
+            "{{ ji}}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    ];
+
+	var	option = {
+		backgroundColor: '#eeeeee',	// 背景颜色
+
+	    tooltip: {                  // 提示框的配置
+	        formatter: function(param) {
+	            if (param.dataType === 'edge') {
+	                //return param.data.category + ': ' + param.data.target;
+	                return param.data.target;
+	            }
+	            //return param.data.category + ': ' + param.data.name;
+	            return param.data.name;
+	        }
+	    },
+
+	    series: [{
+	        type: "graph",          // 系列类型:关系图
+	        top: '5%',             // 图表距离容器顶部的距离
+	        roam: true,             // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移，可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+	        focusNodeAdjacency: true,   // 是否在鼠标移到节点上的时候突出显示节点以及节点的边和邻接节点。[ default: false ]
+	                force: {                // 力引导布局相关的配置项，力引导布局是模拟弹簧电荷模型在每两个节点之间添加一个斥力，每条边的两个节点之间添加一个引力，每次迭代节点会在各个斥力和引力的作用下移动位置，多次迭代后节点会静止在一个受力平衡的位置，达到整个模型的能量最小化。
+	                                // 力引导布局的结果有良好的对称性和局部聚合性，也比较美观。
+	            repulsion: 800,            // [ default: 50 ]节点之间的斥力因子(关系对象之间的距离)。支持设置成数组表达斥力的范围，此时不同大小的值会线性映射到不同的斥力。值越大则斥力越大
+	            edgeLength: [120, 80]      // [ default: 30 ]边的两个节点之间的距离(关系对象连接线两端对象的距离,会根据关系对象值得大小来判断距离的大小)，
+	                                        // 这个距离也会受 repulsion。支持设置成数组表达边长的范围，此时不同大小的值会线性映射到不同的长度。值越小则长度越长。如下示例:
+	                                        // 值最大的边长度会趋向于 10，值最小的边长度会趋向于 50      edgeLength: [10, 50]
+	        },
+	        layout: "force",            // 图的布局。[ default: 'none' ]
+	                                    // 'none' 不采用任何布局，使用节点中提供的 x， y 作为节点的位置。
+	                                    // 'circular' 采用环形布局;'force' 采用力引导布局.
+	        // 标记的图形
+	        //symbol: "path://M19.300,3.300 L253.300,3.300 C262.136,3.300 269.300,10.463 269.300,19.300 L269.300,21.300 C269.300,30.137 262.136,37.300 253.300,37.300 L19.300,37.300 C10.463,37.300 3.300,30.137 3.300,21.300 L3.300,19.300 C3.300,10.463 10.463,3.300 19.300,3.300 Z",
+	        symbol: 'circle',
+	        lineStyle: {            // 关系边的公用线条样式。其中 lineStyle.color 支持设置为'source'或者'target'特殊值，此时边会自动取源节点或目标节点的颜色作为自己的颜色。
+	            normal: {
+	                color: '#000',          // 线的颜色[ default: '#aaa' ]
+	                width: 1,               // 线宽[ default: 1 ]
+	                type: 'solid',          // 线的类型[ default: solid ]   'dashed'    'dotted'
+	                opacity: 0.9,           // 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。[ default: 0.5 ]
+	                curveness: 0            // 边的曲度，支持从 0 到 1 的值，值越大曲度越大。[ default: 0 ]
+	            }
+	        },
+	        label: {                // 关系对象上的标签
+	            normal: {
+	                show: true,                 // 是否显示标签
+	                position: "inside",         // 标签位置:'top''left''right''bottom''inside''insideLeft''insideRight''insideTop''insideBottom''insideTopLeft''insideBottomLeft''insideTopRight''insideBottomRight'
+	                textStyle: {                // 文本样式
+	                    fontSize: 12
+	                }
+	            }
+	        },
+	        edgeLabel: {                // 连接两个关系对象的线上的标签
+	            normal: {
+	                show: true,
+	                textStyle: {
+	                    fontSize: 10
+	                },
+	                formatter: function(param) {        // 标签内容
+	                    return param.data.category;
+	                }
+	            }
+	        },
+	        data: [{
+	            name: ji[8],
+	            draggable: true,                // 节点是否可拖拽，只在使用力引导布局的时候有用。
+	            symbolSize: [80, 80],         // 关系图节点标记的大小，可以设置成诸如 10 这样单一的数字，也可以用数组分开表示宽和高，例如 [20, 10] 表示标记宽为20，高为10。
+	            itemStyle: {
+	            	color: '#000'				// 关系图节点标记的颜色
+	            },
+	            category: "生产厂商"         // 数据项所在类目的 index。
+	        }, {
+	            name: lan[3],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#0000ff'
+	            },
+	            category: "厂商生产"
+	        }, {
+	            name: ji[3],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#ff0000'
+	            },
+	            category: "厂商生产"
+	        }, {
+	            name: lan[4],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#ff0000'
+	            },
+	            category: "指配参数"
+	        },
+            {
+	            name: ji[4],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#ff0000'
+	            },
+	            category: "指配参数"
+	        },
+
+
+                {
+	            name: ji[6],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#00ff00'
+	            },
+	            category: "参数"
+	        },
+	        {
+	            name: lan[6],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#00ff00'
+	            },
+	            category: "参数"
+	        },
+	         {
+	            name: ji[7],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#00ff00'
+	            },
+	            category: "参数"
+	        },
+	        {
+	            name: lan[7],
+	            draggable: true,
+	            symbolSize: [50, 50],
+	            itemStyle: {
+	            	color: '#00ff00'
+	            },
+	            category: "参数"
+	        }
+
+	        ],
+	        categories: [{              // 节点分类的类目，可选。如果节点有分类的话可以通过 data[i].category 指定每个节点的类目，类目的样式会被应用到节点样式上。图例也可以基于categories名字展现和筛选。
+	            name: "生产厂商"            // 类目名称，用于和 legend 对应以及格式化 tooltip 的内容。
+	        }, {
+	            name: "厂商生产"
+	        }, {
+	            name: "厂商生产"
+	        }, {
+	            name: "指配参数"
+	        }, {
+	            name: "指配参数"
+	        }, {
+	            name: "参数"
+	        },
+	        {
+	            name: "参数"
+	        },{
+	            name: "参数"
+	        },
+	        {
+	            name: "参数"
+	        }],
+	        links: [{                   // 节点间的关系数据
+	            target: lan[3],
+	            source: ji[8],
+	            category: "厂商生产"              // 关系对象连接线上的标签内容
+	        }, {
+	            target: ji[3],
+	            source: ji[8],
+	            category: "厂商生产"
+	        }, {
+	            target: lan[4],
+	            source: lan[3],
+	            category: "指配参数"
+	        },
+                {
+	            target: ji[4],
+	            source: ji[3],
+	            category: "指配参数"
+	        },{
+	            target: ji[6],
+	            source: ji[3],
+	            category: "参数"
+	        },
+	        {
+	            target: lan[6],
+	            source: lan[3],
+	            category: "参数"
+	        },
+	        {
+	            target: lan[7],
+	            source: lan[3],
+	            category: "参数"
+	        }, {
+	            target: ji[7],
+	            source: ji[3],
+	            category: "参数"
+	        }]
+	    }],
+
+	    animationEasingUpdate: "quinticInOut",          // 数据更新动画的缓动效果。[ default: cubicOut ]    "quinticInOut"
+	    animationDurationUpdate: 100                    // 数据更新动画的时长。[ default: 300 ]
+	};
+
+	// 使用刚指定的配置项和数据显示图表
+	chart1.setOption(option);
+
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
+        // 指定图表的配置项和数据
+        var option = {
+            left: 'center',
+            legend: {
+                data:['生产设备种类']
+            },
+            tooltip:{},
+
+            grid: {
+                left: '15%',
+                bottom:'38%'
+            },
+            xAxis: {
+                 axisLabel: {
+                     interval:0,
+                     rotate:20},
+                 type: 'category',
+                 data: [
+                     {% for fo in data1 %}
+                         "{{ fo}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+             },
+
+            yAxis: {
+                 type: 'value'},
+            series: [{
+                name:'生产设备种类',
+                data: [{% for foo in data %}
+                        {{ foo }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                     color: 'rgba(220, 220, 220, 0.8)'}}]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main2'));
+        // 指定图表的配置项和数据
+        var option = {
+
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 3,
+        data: [{% for key, value in data2.items %}
+            "{{ key }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}]
+    },
+    series: [
+        {
+            name: '设备种类',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: false,
+                    fontSize: '30',
+                    fontWeight: 'bold'
+                }
+            },
+        
+            labelLine: {
+                show: false
+            },
+            data: [
+                {% for key,value in data2.items %}
+                {value: {{ value }}, name: "{{key}}"}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+
+            ]
+        }
+    ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main3'));
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    legend: {
+        // orient: 'vertical',
+        // top: 'middle',
+        bottom: 10,
+        left: 'center',
+        data: [{% for key, value in data3.items %}
+            "{{ key }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}]
+    },
+    series: [
+        {
+            name: '设备发射功率',
+            type: 'pie',
+            radius: '65%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data: [
+                {% for key,value in data3.items %}
+                {value: {{ value }}, name: "{{key}}"}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main4'));
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+        trigger: 'axis',
+        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    legend: {
+        data: ['春季', '夏季', '秋季', '冬季']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'value'
+    },
+    yAxis: {
+        type: 'category',
+        data: [{% for year in data8 %}
+            "{{ year}}"{% if not forloop.last %}, {% endif %}{% endfor %}]
+    },
+    series: [
+        {
+            name: '春季',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
+            data: [{% for spring in data4 %}
+            {{ spring}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+        },
+        {
+            name: '夏季',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
+            data: [{% for summer in data5 %}
+            {{ summer}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+        },
+        {
+            name: '秋季',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
+            data: [{% for autumn in data6 %}
+            {{ autumn}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+        },
+        {
+            name: '冬季',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
+            data: [{% for winter in data7 %}
+            {{ winter}}{% if not forloop.last %}, {% endif %}{% endfor %}]
+        }
+    ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main5'));
+        // 指定图表的配置项和数据
+        var option = {
+            color: ['#3398DB'],
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: [{% for name in data9 %}
+            "{{ name}}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value'
+        }
+    ],
+    series: [
+        {
+            name: '对应设备种类',
+            type: 'bar',
+            barWidth: '60%',
+            data: [{% for num in data10 %}
+            "{{ num}}"{% if not forloop.last %}, {% endif %}{% endfor %}]
+        }
+    ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main6'));
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    legend: {
+        // orient: 'vertical',
+        // top: 'middle',
+        bottom: 10,
+        left: 'center',
+        data: [{% for key, value in data11.items %}
+            "{{ key }}"{% if not forloop.last %}, {% endif %}
+        {% endfor %}]
+    },
+    series: [
+        {
+            name: '设备占用带宽',
+            type: 'pie',
+            radius: '65%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data: [
+                {% for key,value in data11.items %}
+                {value: {{ value }}, name: "{{key}}"}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+
+
+</body>
+</html>

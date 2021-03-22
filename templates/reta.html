@@ -1,0 +1,426 @@
+{% extends 'layout.html' %}
+{% block content %}
+ <div class="col">
+ <h2> 无线电频段和波段的命名规则</h2>
+
+ <div>
+  <a href="/reta_list/">
+      <button type="button" class="but">
+         无线频率/业务
+     </button>
+  </a>
+</div>
+ </div>
+<div class="head">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                <a class="rule" href="#">无线电频谱可分为右边表中的14个频段，无线电频率以Hz（赫兹）为单位，其表达方式为：</a>
+                </div>
+                <div class="card-body" style="color: #101010">
+                <p style="text-indent:2em;">—— 3000kHz以下（包括3000kHz），以kHz（千赫兹）表示；</p>
+                <p style="text-indent:2em;">—— 3MHz以上至3000MHz（包括3000MHz），以MHz（兆赫兹）表示；</p>
+                <p style="text-indent:2em;">—— 3GHz以上至3000GHz（包括3000GHz），以GHz（吉赫兹）表示。</p>
+                </div>
+                <div class="card-body" style="margin-top:30px;">
+                <p class="text1" style="color: #FF4500">注：频率范围（波长范围亦类似）均含上限、不含下限；相应名词非正式标准，仅作简化称呼参考之用。</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="table-responsive-sm">
+   <table class="table  table-hover table-bordered table-sm">
+   <thead class="thead-dark">
+    <tr>
+      <th scope="col">带号</th>
+      <th scope="col">频带名称</th>
+      <th scope="col">频率范围</th>
+      <th scope="col">波段名称</th>
+      <th scope="col">波段范围</th>
+    </tr>
+   </thead>
+    <tbody>
+    <tr class="table-success">
+      <th scope="row">-1</th>
+      <td>至低频（TLF）</td>
+      <td>0.03－0.3Hz</td>
+      <td>至长波或千兆米波</td>
+      <td>10000－1000兆米（Mm）</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">0</th>
+      <td>至低频（TLF）</td>
+      <td>0.3－3Hz</td>
+      <td>至长波或百兆米波</td>
+      <td>1000－100兆米（Mm）</td>
+    </tr>
+    <tr class="table-primary">
+      <th scope="row">1</th>
+      <td>极低频（ELF）</td>
+      <td>3－30Hz</td>
+      <td>极长波</td>
+      <td>100－10兆米（Mm）</td>
+    </tr>
+    <tr class="table-danger">
+      <th scope="row">2</th>
+      <td>超低频（SLF）</td>
+      <td>30－300Hz</td>
+      <td>超长波</td>
+      <td>10－1兆米（Mm）</td>
+    </tr>
+    <tr class="table-warning">
+      <th scope="row">3</th>
+      <td>特低频（ULF）</td>
+      <td>300－3 000Hz</td>
+      <td>特长波</td>
+      <td>1000－100千米（km）</td>
+    </tr>
+    <tr class="table-success">
+      <th scope="row">4</th>
+      <td>甚低频（VLF）</td>
+      <td>3－30kHz</td>
+      <td>甚长波</td>
+      <td>100－10千米（km）</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">5</th>
+      <td>低频（LF）</td>
+      <td>30－300kHz</td>
+      <td>长波</td>
+      <td>10－1千米（km）</td>
+    </tr>
+    <tr class="table-primary">
+      <th scope="row">6</th>
+      <td>中频（MF）</td>
+      <td>300－3000kHz</td>
+      <td>中波</td>
+      <td>1000－100米（m）</td>
+    </tr>
+    <tr class="table-danger">
+      <th scope="row">7</th>
+      <td>高频（HF）</td>
+      <td>3－30MHz</td>
+      <td>短波</td>
+      <td>100－10米（m）</td>
+    </tr>
+    <tr class="table-warning">
+      <th scope="row">8</th>
+      <td>甚高频（VHF）</td>
+      <td>30－300MHz</td>
+      <td>米波</td>
+      <td>10－1米（m）</td>
+    </tr>
+    <tr class="table-success">
+      <th scope="row">9</th>
+      <td>特高频（UHF）</td>
+      <td>300－3000MHz</td>
+      <td>分米波</td>
+      <td>10－1分米（dm）</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">10</th>
+      <td>超高频（SHF）</td>
+      <td>3－30GHz</td>
+      <td>厘米波</td>
+      <td>10－1厘米（cm）</td>
+    </tr>
+    <tr class="table-primary">
+      <th scope="row">11</th>
+      <td>极高频（EHF）</td>
+      <td>30－300GHz</td>
+      <td>毫米波</td>
+      <td>10－1毫米（mm）</td>
+    </tr>
+    <tr class="table-danger">
+      <th scope="row">12</th>
+      <td>至高频（THF）</td>
+      <td>300－3000GHz</td>
+      <td>丝米波或亚毫米波</td>
+      <td>10－1丝米（dmm）</td>
+    </tr>
+  </tbody>
+  </table>
+            </div>
+        </div>
+    </div>
+ </div>
+<div class="col">
+<h4 style="color: #101010">频率共用(Frequency sharing)</h4>
+<p class="intro">
+A description of radio services is given below:</p>
+</div>
+ <div class="row" style="margin-left: 20px">
+    <div class="col-sm-4">
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t41" data-toggle="collapse" class="active">干扰<p style="font-size: 16px;height: 8px">(interference)</p></a>
+            </h5>
+          </div>
+            <div id="t41" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 由于一种或多种发射、辐射、感应或其组合所产生的无用能量对无线电通信系统的接收产生的影响，其表现为性能下降、误解、或信息丢失，若不存在这种无用能量，则此后果可以避免。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t42" data-toggle="collapse" class="active">允许干扰<p style="font-size: 16px;height: 8px">(permissible interference)</p></a>
+            </h5>
+          </div>
+            <div id="t42" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 观测到的或预测的干扰，该干扰符合国家或国际上规定的干扰允许值和共用标准。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t43" data-toggle="collapse" class="active">可接受干扰<p style="font-size: 16px;height: 8px">(accepted interference)</p></a>
+            </h5>
+          </div>
+            <div id="t43" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 干扰电平虽高于规定的允许干扰标准，但经两个或两个以上主管部门协商同意，且不损害其他主管部门利益的干扰。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t44" data-toggle="collapse" class="active">有害干扰<p style="font-size: 16px;height: 8px">(harmful interference)</p></a>
+            </h5>
+          </div>
+            <div id="t44" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 危害无线电导航或其他安全业务的正常运行，或严重地损害、阻碍、或一再阻断按规定正常开展的无线电通信业务的干扰。
+                </p>
+            </div>
+          </div>
+        </div>
+        </div>
+    <div class="col-sm-4">
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t45" data-toggle="collapse" class="active">射频保护比(R.F.)<p style="font-size: 16px;height: 8px">(protection ratio（R.F.）)</p></a>
+            </h5>
+          </div>
+            <div id="t45" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 为使接收机输出端的有用信号达到规定的接收质量，在规定的条件下所确定的接收机输入端的有用信号与无用信号的最小比值。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t46" data-toggle="collapse" class="active">协调区<p style="font-size: 16px;height: 8px">(coordination area))</p></a>
+            </h5>
+          </div>
+            <div id="t46" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                在与地面电台共用相同频率的地球站周围或与接收地球站共用相同双向划分频段的发射地球站周围的一个区域，用于确定是否需要协调。在此区域之外，不会超过允许干扰的电平，因此不需要协调。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t47" data-toggle="collapse" class="active">协调等值线<p style="font-size: 16px;height: 8px">(coordination contour)</p></a>
+            </h5>
+          </div>
+            <div id="t47" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 环绕协调区的线
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t48" data-toggle="collapse" class="active">协调距离<p style="font-size: 16px;height: 8px">(coordination distance)</p></a>
+            </h5>
+          </div>
+            <div id="t48" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                从与地面电台共用相同频率的地球站周围或与接收地球站共用相同双向划分频段的发射地球站的给定方位起算的一段距离，用于确定是否需要协调。在此距离之外，不会超过允许干扰电平，因此不需要协调。</p>
+            </div>
+          </div>
+        </div>
+        </div>
+    <div class="col-sm-4">
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t49" data-toggle="collapse" class="active">等效卫星链路噪声温度<p style="font-size: 16px;height: 8px">(equivalent satellite link noise temperature)</p></a>
+            </h5>
+          </div>
+            <div id="t49" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 折算到地球站接收天线输出端的噪声温度，它对应于在卫星链路输出端产生全部所测噪声的无线电频率噪声功率，但来自使用其他卫星的卫星链路的干扰和来自地面系统的干扰所造成的噪声除外。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t50" data-toggle="collapse" class="active">可调卫星波束的有效瞄准区<p style="font-size: 16px;height: 8px">(effective boresight area of a steerable satellite beam)</p></a>
+            </h5>
+          </div>
+            <div id="t50" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 用一个可调卫星波束瞄准线所瞄准到的地球表面的一个区域范围。
+                    单个可调卫星波束瞄准到的可能有一个以上的互不相连的有效瞄准区
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t51" data-toggle="collapse" class="active">可调卫星波束的有效天线增益等值线<p style="font-size: 16px;height: 8px">(effective antenna gain contour of steerable satellite beam)</p></a>
+            </h5>
+          </div>
+            <div id="t51" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 可调卫星波束瞄准线沿着有效瞄准区边缘移动所产生的天线增益等值线的包络线。
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="panel-title">
+                <a href="#t52" data-toggle="collapse" class="active">指配频率<p style="font-size: 16px;height: 8px">(assigned frequency)</p></a>
+            </h5>
+          </div>
+            <div id="t52" class="panel-collapse collapse" >
+                <div class="panel-body">
+                 <p style="text-indent:2em;">
+                 指配给一个电台的频段的中心频率。
+                </p>
+            </div>
+          </div>
+        </div>
+        </div>
+</div>
+<div class="cen">
+<div class="row">
+        <div class="col-sm-5">
+             <div class="card border-primary mb-3">
+                <div class="card-header">
+                <h4 style="text-align:center;color: #fff">无线电技术使用规范说明如下</h4>
+                </div>
+                <div class="card-body" style="margin-top:10px;color: #101010">
+                <p style="text-indent:2em;">电台所用设备的选择与性能以及电台的任何发射，应符合我国无线电管理规定、相关国家标准及国际电联《无线电规则》的有关规定。</p>
+                <p style="text-indent:2em;">发射和接收设备拟用于频谱某一指定部分时，其设计应考虑频谱邻近部分或其他部分可能使用的发射和接收设备的技术特性，条件是已采取技术上和经济上的一切合理措施，以减小后使用的发射设备的无用发射电平，以及降低后使用的接收设备对干扰的敏感性。</p>
+                <p style="text-indent:2em;">应尽一切努力把频率容限和无用发射电平保持在技术状态和该项业务的性质所允许的最低值上。发射带宽还应保证最有效地利用频谱；这通常要求把带宽保持在技术状态和该项业务的性质所允许的最低值上。</p>
+                </div>
+            </div>
+        </div>
+    <div class="col-sm-7">
+        <div class="zm">
+        <h4>常用字母代码和业务频段对应表</h4>
+    <table class="table  table-hover table-bordered table-sm table-responsive">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col" rowspan="2" style="vertical-align: middle;">字母代码</th>
+      <th scope="col " colspan="2">雷    达</th>
+      <th scope="col" colspan="2">空间无线电通信</th>
+    </tr>
+    <tr>
+      <th scope="col" style="vertical-align: middle;">频率范围（GHz）</th>
+      <th scope="col" style="vertical-align: middle;">举例（GHz）</th>
+      <th scope="col" style="vertical-align: middle;">标 称 频 段</th>
+      <th scope="col" style="vertical-align: middle;">举例（GHz）</th>
+    </tr>
+   </thead>
+    <tbody>
+    <tr class="table-success">
+      <th scope="row">L</th>
+      <td>1-2</td>
+      <td>1.215-1.4</td>
+      <td>1.5GHz频段</td>
+      <td>1.525-1.710</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">S</th>
+      <td>2-4</td>
+      <td>2.3-2.5 ,2.7-3.4
+      </td>
+      <td>2.5GHz频段</td>
+      <td>2.5-2.690</td>
+    </tr>
+    <tr class="table-primary">
+      <th scope="row" style="vertical-align: middle;">C</th>
+      <td style="vertical-align: middle;">4-8</td>
+      <td style="vertical-align: middle;">5.25-5.85</td>
+      <td style="vertical-align: middle;">4/6GHz频段</td>
+      <td style="vertical-align: middle;">3.4-4.2 ,4.5-4.8, 5.85-7.075</td>
+    </tr>
+    <tr class="table-danger">
+      <th scope="row">X</th>
+      <td>8-12</td>
+      <td>8.5-10.5</td>
+      <td></td>
+      <td>10－1兆米（Mm）</td>
+    </tr>
+    <tr class="table-warning">
+      <th scope="row" style="vertical-align: middle;">Ku</th>
+      <td style="vertical-align: middle;">12-18</td>
+      <td style="vertical-align: middle;">13.4-14.0,15.7-17.3</td>
+      <td style="vertical-align: middle;">11/14GHz频段,12/14GHz频段</td>
+      <td style="vertical-align: middle;">10.7-13.25, 14.0-14.5</td>
+    </tr>
+    <tr class="table-success">
+      <th scope="row">K(注)</th>
+      <td>18-27</td>
+      <td>24.05-24.25</td>
+      <td>20GHz频段</td>
+      <td>17.7-20.2</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">Ka(注)</th>
+      <td>27-40</td>
+      <td>33.4-36.0</td>
+      <td>30GHz频段</td>
+      <td>27.5-30.0</td>
+    </tr>
+    <tr class="table-primary">
+      <th scope="row">V</th>
+      <td>40-75</td>
+      <td>46-56</td>
+      <td>40GHz频段</td>
+      <td>37.5-42.5 ,47.2-50.2
+      </td>
+    </tr>
+  </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

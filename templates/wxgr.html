@@ -1,0 +1,218 @@
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>卫星干扰</title>
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap4/css/style-starter.css">
+</head>
+<body>
+<style>
+html,body{
+    background-color: #eeeeee;
+}
+
+</style>
+<div class="card card_border p-lg-5 p-3 mb-4">
+      <div class="card-body py-3 p-0">
+        <div class="row">
+          <div class="col-lg-6 align-self pr-lg-4">
+            <h3 class="block__title mb-lg-4">地球/卫星频率干扰问题</h3>
+            <p class="mb-3" style="font-size: 1.2em;text-indent:2em;">
+                随着科学技术的发展，卫星通信技术因为其具有传输距离远、覆盖面广、不受地理条件限制、通信频带宽、容量大等优势，
+                得到了广泛的应用。而同时5G技术的快速发展也使得5G技术广泛普及，5G基站得到了广泛建立。这样就带来了5G信号与
+                卫星信号的频率干扰问题。如右图所示，就展现了卫星信号与5G信号之间的干扰情景。因此，本项目对卫星信号与5G信号间的干扰问题进行了分析，
+                下面是干扰问题中两个重要参数，中断概率和信噪比的关系。
+            </p>
+
+
+          </div>
+          <div class="col-lg-6 pl-lg-4 mt-lg-0 mt-4">
+            <img src="/static/img/12.png" alt="" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="cards__heading mb-4" >
+    <p>
+        下图通过公式做出了中断概率/信噪比关系图（左图）和中断概率/距离关系图（右图），公式及参数如下所示：
+    </p>
+    <label>模型一：</label><span style="font-size: 0.8rem">`P_(out)=(1-(l_1-l_0)/L)(γ(n,nζ))/(Γ(n))+(Γ(m+n)n^n-1)/(Γ(m)Γ(n)m^n)(kη^n)/(1-na_t)[l_1^(1-na_t)F_2(m+n,n,n-1/a_t;1+n,1+n-1/a_t;-n/mη/l_1^(a_t))`</span>
+    <span>`-l_0^(1-na_t)F_2(m+n,n,n-1/a_t;1+n,1+n-1/a_t;-n/mη/l_0^(a_t))]`</span></br>
+    <label>模型二：</label></br><span style="font-size: 0.8rem">`P_(out)=(1-(l_1-l_0)/L)(γ(n,nζ))/(Γ(n))+(k(nη)^n)/(1-na_t)[l_1^(1-na_t)F_2(n,n-1/a_t;1+n-1/a_t;-nη/l_1^(a_t))
+    -l_0^(1-na_t)F_2(n,n-1/a_t;1+n-1/a_t;-nη/l_0^(a_t))]`</span>
+    <p>
+        卫星仰角: `θ_(elve)=45°`;
+        站间距离: L={0.5km,1km,1.5km};
+        高度差: ∆=23.5m;
+        倾斜的角度: `θ_(tilt)=20°`;
+        波束宽度: BW = 30°;
+        路径损耗指数: αs= 2.1,αt= 3;</br>
+        计算参数：m = {1,3,5}，n = {5,8,10}；
+        发射功率：Ps= 20W,Pt= 0.1W，信噪比= 20dB；
+        天线增益：Gs= 58.5/ 20dbi (Sat/UE)，Gt= 20dbi。
+    </p>
+</div>
+
+
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             中断概率/信噪比关系图
+            </div>
+            <div class="card-body">
+              <!-- bar chart -->
+              <div id="container"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"></div></div>
+                <canvas id="main" width="500" height="360" class="chartjs-render-monitor" style="width: 500px; height: 360px;"></canvas>
+              </div>
+              <!-- //bar chart -->
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             中断概率/距离关系图
+            </div>
+            <div class="card-body">
+              <!-- line chart -->
+              <div id="container"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <canvas id="main1" width="500" height="360" class="chartjs-render-monitor" style="width: 500px; height: 360px;"></canvas>
+              </div>
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        // 指定图表的配置项和数据
+        var option = {
+
+        legend: {
+        data: ['模型1(m=3,n=8)', '模型2(n=5)', '模型1(m=5,n=10)']
+        },
+
+
+            xAxis: {
+            type: 'category',
+            interval: 1,
+            boundaryGap: false,
+            data: [
+                {% for x in data  %}
+                    {{ x }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                ],
+            name:'信噪比(dB)',
+            },
+            yAxis: {
+            name:'中断概率',
+            type: 'log',
+            max:1,
+            },
+            series: [{
+            name: '模型1(m=3,n=8)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y0 in data0 %}
+                {{ y0 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+
+        },
+        {
+            name: '模型2(n=5)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y1 in data1 %}
+                {{ y1 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        },
+        {
+            name: '模型1(m=5,n=10)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y2 in data2 %}
+                {{ y2 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        }
+            ]};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
+        // 指定图表的配置项和数据
+        var option = {
+
+        legend: {
+        data: ['模型1(L=0.5km)', '模型1(L=1km)', '模型1(L=1.5km)']
+        },
+
+            xAxis: {
+            type: 'category',
+            interval: 1,
+            boundaryGap: false,
+            data: [
+                {% for x in data  %}
+                    {{ x }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                ],
+            name:'信噪比(dB)',
+            },
+            yAxis: {
+            name:'中断概率',
+            type: 'log',
+            max:1,
+            },
+            series: [{
+            name: '模型1(L=0.5km)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y4 in data4 %}
+                {{ y4 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+
+        },
+        {
+            name: '模型1(L=1km)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y3 in data3 %}
+                {{ y3 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        },
+        {
+            name: '模型1(L=1.5km)',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for y5 in data5 %}
+                {{ y5 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        }
+            ]};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+</body>
+</html>

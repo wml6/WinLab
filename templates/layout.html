@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首页</title>
+  <script src="/static/vue/vue.js"></script>
+  <script src="/static/jq-1.11.js"></script>
+  <script src="/static/bootstrap4/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/style.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/styles.css">
+  <link id="theme-style" rel="stylesheet" href="/static/bootstrap4/css/stylee.css">
+
+  <script>
+    //获取json数据
+    var getData = function () {
+     return fetch("http://120.78.142.50:8890/Data/").then(res => {
+        return res.json();
+      })
+    }
+    //源数据
+    var source = {};
+    //业务
+    var list = [];
+    //频率
+    var reta = [];
+
+    //初始化 解析json数据
+    var init = function () {
+      var _self = this;
+      getData().then(res => {
+        source = res.data;
+        // console.log(res)
+        //收集所有频率
+        for (var k in res.data[1]) {
+          if (!reta.some(r => {
+              return r.key == k;
+            })) {
+            reta.push({
+              key: k,
+              title: k,
+              list: res.data[1][k].split(',')
+            });
+          }
+        }
+        console.log(reta)
+
+        //收集所有业务
+        for (var k in res.data[1]) {
+          var arr = res.data[1][k].split(',')
+          arr.map(a => {
+            var str = "";
+            str = a.replace(/\[/g, "")
+            str = str.replace(/\]/g, "")
+            str = str.trim()
+            if (!list.some(r => {
+                if (r.key == str) {
+                  if (!r.list.includes(k)) {
+                    r.list.push(k);
+                  }
+                  return true;
+                }
+                return false;
+              })) {
+              list.push({
+                key: str,
+                title: str,
+                list: [k]
+              });
+            }
+          })
+        }
+        //console.log(list)
+      })
+    }
+
+    init();
+  </script>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      background-color: #F0F0F0;
+      background: url(/static/img/bz1.png) no-repeat;
+      background-size:100%;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #app .cardBox {
+      -moz-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      margin: 6px 0px;
+    }
+
+    #app .cardBox:hover {
+      border: 1px solid rgb(121, 187, 255);
+    }
+  </style>
+
+  <style>
+    .Pc_Layout {
+      min-width: 1200px;
+      width: 60%;
+      margin: 0 auto;
+      height: 100vh;
+    }
+  </style>
+  <style>
+    .Mobile_Layout {
+
+      height: 100vh;
+      overflow: auto;
+      background: url(/static/img/bz1.png) no-repeat;
+      background-size:100%;
+    }
+  </style>
+  <style>
+    .header {
+      padding: 0px;
+      width: 100%;
+    }
+
+    .content {
+      padding: 18px 18px;
+      color: #282828;
+    }
+
+    .content_list {
+      background-color: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      padding: 15px 0px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .content_list>.card {
+      margin: 0px auto !important;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .carousel-control-prev span:first-child,
+    .carousel-control-next span:first-child {
+      background-color: #909399;
+      border-radius: 3px;
+    }
+
+    .carousel-indicators li {
+      background-color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" :class="isMobile?'Mobile_Layout':'Pc_Layout'">
+    <div class="header">
+      <nav class="navbar navbar-expand-lg  bg-success navbar-dark">
+        <a class="navbar-brand" href="/index"> <img class="img-circle" src="/static/img/lb2.bmp" alt="logo" style="width:40px;"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a array="/index" class="nav-link" href="/index">首页</a>
+            </li>
+            <li class="nav-item">
+              <a array="/buss/,/buss_list/" class="nav-link" href="/buss/">业务</a>
+            </li>
+            <li class="nav-item">
+              <a array="/reta/,/reta_list/" class="nav-link" href="/reta/">频率</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+
+  <script type = "text/javascript">
+    new  Vue({
+      el: '#app',
+      data() {
+        return {
+          isMobile: false,
+          //源数据
+          source: source,
+          //过滤条件
+          filter: {
+            reta: '',
+            buss: '',
+          },
+          //业务
+          list: list,
+          buss: {
+            isShow: false,
+          },
+          //频率
+          reta: reta,
+          retaObj: {
+            isShow: false,
+            list: [],
+          },
+          URL:'/static/video/'
+        }
+
+      },
+      created() {
+        this.Mobile();
+      },
+      methods: {
+        Mobile() {
+          if ((navigator.userAgent.match(
+              /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+            ))) {
+            document.querySelector('head').append(
+              '<meta id="moblie_meta" name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>'
+            );
+            this.isMobile = true;
+          } else {
+            if (document.querySelector('#moblie_meta')) {
+              document.querySelector('#moblie_meta').remove();
+            }
+            this.isMobile = false;
+          }
+        },
+        toBuss(node) {
+          this.buss.isShow = true;
+          this.buss.list = node.list;
+          this.MYURL=this.URL+node.title+'.mp4'
+          //console.log(MYURL)
+        },
+        toReta(node) {
+          this.retaObj.isShow = true;
+          this.retaObj.list = node.list;
+          // console.log(node)
+        },
+        btnClink(MYURL){
+            console.log(MYURL)
+        }
+      },
+      computed: {
+        //判别业务名称 是否带有[]括号
+        buss_title() {
+          var _self = this;
+          return (title) => {
+            if (/^\[.*\]$/.test(title)) {
+              var str = "";
+              str = title.replace(/\[/g, "")
+              str = str.replace(/\]/g, "")
+              str = `${str} --- 次要业务`
+              return str;
+            } else {
+              return title;
+            }
+          }
+        }
+      },
+      delimiters: ['${', '}']
+    })
+  </script>
+
+
+  <script>
+    //设定导航头 选中
+    window.addEventListener('load', () => {
+      var path = location.pathname
+      var node = document.querySelector('*[array*="' + path + '"]')
+      if (node) {
+        var str = node.getAttribute('class')
+        node.setAttribute('class', str + " active");
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+  <a type="button" class="btn btn-info btn-sm" href="/reta/">返 回</a>
+</div>
+<div>
+  <button type="button" class="btn btn-outline-primary" id="pinglv" style="margin: 9px;" v-for="n in reta" :key="n.key"
+    @click="toBuss(n)">
+    ${n.title}
+  </button>
+</div>
+<!-- <div class="card cardBox" v-for="n in reta" :key="n.key" @click="toBuss(n)">
+  <div class="card-body">
+    <div>频率: ${n.title}</div>
+  </div>
+</div> -->
+<div class="content_list reta_list" v-if="buss.isShow">
+  <div class="card" :style="isMobile?'width: 96%;':'width:60%'">
+    <div class="card-body">
+      <div style="text-align: center;">
+        <button type="button" class="btn btn-danger btn-sm" @click="buss.isShow=false">关 闭</button>
+      </div>
+      <div class="card" style="margin: 9px 0px;" v-for="n in buss.list" :key="n">
+        <div class="card-body" style="background-color:	#F8F8F8">
+          <div>业务: ${buss_title(n)}</div>
+        </div>
+      </div>
+      <video v-bind:src="MYURL" width=100% controls>
+    您的浏览器不支持 video 元素。
+      </video>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

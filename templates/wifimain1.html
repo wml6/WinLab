@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wifi监测</title>
+        <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+</head>
+<body>
+
+<div style="height:3500px;background-color: #000079;margin-left: 1.7em;margin-right: 1.7em;">
+    <div >
+         <img class="image1" src="../static/img/lb2.bmp" style="width: 150px;height:150px;position: relative;left: 10%;top:50px">
+        <h1 style="color:#f4f4f4; display:table-cell; position: relative;left: 45%;bottom: 80px;font-size: 250%">Wifi-based personnel activity <br> monitoring system</h1>
+    </div>
+    <div style="position: relative;bottom:40px">
+            <div class="title-box" style="position:relative;bottom:10px;width:50%;height:35px;background: url(../static/image/box_title.png) bottom center no-repeat;background-size:90%;font-weight:bold">
+         <h6 style="font-weight:bold;color: white;font-size: 150%">节点位置分布</h6>
+    </div>
+    <div id="viewDiv" style="height:500px"></div>
+    <div id="yun" style="height:500px"></div>
+    <div id="yun1" style="height:500px"></div>
+    <div id="sixin" style="height:500px"></div>
+    <div id="xindao" style="height:500px"></div>
+    <div id="chartplot" style="height:500px"></div>
+    </div>
+
+</div>
+
+</body>
+<script type="text/javascript">
+    //xdata={{ x|safe }};
+    //ydata={{ y|safe }};
+
+    var myChartyun = echarts.init(document.getElementById('yun'));
+    myChartyun.setOption(
+        option = {
+        title: {
+            text: 'YUN-2.4G 信号强度:',
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15,      //更改坐标轴文字大小
+
+        },
+        },
+        tooltip: {
+
+            trigger: 'axis',
+        },
+        xAxis: {
+            data: [],
+                 axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },}
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            },
+
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+     },
+        },
+
+        dataZoom: [{
+            show:false,
+            start:60,
+            end:100
+        }, {
+            type: 'inside',
+        }],
+
+        series: {
+            name: 'AP RSSI',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"sachjac",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: -100
+                }, {
+                    yAxis: -75
+                }, {
+                    yAxis: -50
+                }, {
+                    yAxis: -25
+                }, {
+                    yAxis: -0
+                }],
+
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+            }
+        }
+    });
+    var update_mychartyun=function(time,data){
+        var option0=myChartyun.getOption();
+        option0.series[0].data=data;
+        option0.xAxis[0].data=time;
+        myChartyun.setOption(option0);
+    };
+    var getting={
+        url:"/aprssi/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            xdata=res["time"];
+            ydata=res["count"];
+{#            console.log(ydata)#}
+            update_mychartyun(xdata,ydata);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(getting)
+{#    var timeid=window.setInterval(function(){$.ajax(getting)},1000*1);#}
+</script>
+<script type="text/javascript">
+
+    var myChartsixin = echarts.init(document.getElementById('sixin'));
+    myChartsixin.setOption(
+        option = {
+        title: {
+            text: 'Four-Faith 信号强度:',
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+        },
+        tooltip: {
+
+            trigger: 'axis',
+        },
+        xAxis: {
+            data: [],
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },}
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            },
+
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },}
+        },
+
+        dataZoom: [{
+            show:false,
+            start:60,
+            end:100
+        }, {
+            type: 'inside'
+        }],
+
+        series: {
+            name: 'AP RSSI',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"sachjac",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: -100
+                }, {
+                    yAxis: -75
+                },
+                    {
+                    yAxis: -50
+                },
+                    {
+                    yAxis: -25
+                },
+                ],
+                textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+            }
+        }
+    });
+    var update_mychartsixin=function(time,data){
+        var option0=myChartsixin.getOption();
+        option0.series[0].data=data;
+        option0.xAxis[0].data=time;
+        myChartsixin.setOption(option0);
+    };
+    var gettingsixin={
+        url:"/aprssisixin/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            xdata=res["sixintime"];
+            ydata=res["sixincount"];
+            update_mychartsixin(xdata,ydata);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(gettingsixin);
+{#    var timeidsixin=window.setInterval(function(){$.ajax(gettingsixin)},1000*1);#}
+
+</script>
+<script type="text/javascript">
+
+    var myChartyun1 = echarts.init(document.getElementById('yun1'));
+    myChartyun1.setOption(
+        option = {
+        title: {
+            text: 'Yun 信号强度:',
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+        },
+        tooltip: {
+
+            trigger: 'axis',
+        },
+        xAxis: {
+            data: [],
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },}
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            },
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },}
+        },
+
+        dataZoom: [{
+            show:false,
+            start:60,
+            end:100
+        }, {
+            type: 'inside'
+        }],
+
+        series: {
+            name: 'AP RSSI',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"sachjac",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: -80
+                }, {
+                    yAxis: -70
+                },
+                    {
+                    yAxis: -90
+                },
+{#                    {#}
+{#                    yAxis: -50#}
+{#                }, {#}
+{#                    yAxis: -40#}
+{#                }#}
+                ],
+                textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        },
+            }
+        }
+    });
+    var update_mychartyun1=function(time,data){
+        var option0=myChartyun1.getOption();
+        option0.series[0].data=data;
+        option0.xAxis[0].data=time;
+        myChartyun1.setOption(option0);
+    };
+    var gettingyun1={
+        url:"/aprssiyun/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            xdata=res["sixintime"];
+            ydata=res["sixincount"];
+            update_mychartyun1(xdata,ydata);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(gettingyun1);
+{#    var timeidsixin=window.setInterval(function(){$.ajax(gettingsixin)},1000*1);#}
+
+</script>
+<script type="text/javascript">
+    var myChartnum = echarts.init(document.getElementById('xindao'));
+    myChartnum.setOption(
+        option = {
+        title: {
+            text: '实时人数与预测结果',
+            textStyle: {"fontSize": 15,"fontWeight": "bolder","color": "white"}
+        },
+                legend:{
+            icon: "circle",
+               width:20,
+    height:20,
+    left:'right',
+     textStyle: {"fontSize": 15,"fontWeight": "bolder","color": "white"}
+},
+        tooltip: {
+            textStyle: {
+              fontSize: 15,
+            },
+            trigger: 'axis',
+        },
+        grid:{
+        left:30,
+            right:30,
+            bottom:80
+    },
+        xAxis: [{
+            axisLine:{
+                show: true,
+                lineStyle: {
+                    color: "white",
+                    width: 2.5,
+
+                }
+            },
+                axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        }
+     },
+            data: []
+        },{
+            axisLine:{
+                show: false,
+                lineStyle: {
+                    color: "white",
+                    width: 2.5,
+
+                }
+            },
+                axisLabel: {
+       show: false,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        }
+     },
+            data: []
+        }],
+        yAxis: {
+            axisLine:{
+                show: true,
+                lineStyle: {
+                    color: "white",
+                    width: 2.5,
+
+                }
+            },
+            axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        }
+     },
+            splitLine: {
+                show: false
+            }
+        },
+
+        dataZoom: [
+            {
+            type: 'inside'
+        },
+        {
+            show:true
+        }],
+        series: [{
+            itemStyle : {
+                normal : {
+                    lineStyle:{
+                        width:2.5,
+                        color:'red'
+                    }
+                }
+            },
+            name: '用户预测',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"sachjac",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: 10
+                }, {
+                    yAxis: 40
+                }, {
+                    yAxis: 100
+                }, {
+                    yAxis: 200
+                }, {
+                    yAxis: 400
+                }]
+            }
+        },{
+            itemStyle : {
+                normal : {
+                    width:2.5,
+                    lineStyle:{
+                        color:'yellow'
+                    }
+                }
+            },
+            name: 'WIFI用户实时数量',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"dsdsds",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: 10
+                }, {
+                    yAxis: 40
+                }, {
+                    yAxis: 100
+                }, {
+                    yAxis: 200
+                }, {
+                    yAxis: 400
+                }]
+            }
+        }]
+    });
+    var update_mychartnum=function(time,data,timeb,countb){
+        var option0=myChartnum.getOption();
+        option0.series[1].data=data;
+        option0.xAxis[1].data=timeb;
+        option0.series[0].data=countb;
+        option0.xAxis[0].data=timeb;
+        myChartnum.setOption(option0);
+    };
+    var getting={
+        url:"/plot_/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            xdata=res["time"];
+            ydata=res["count"];
+            xpre=res["timeb"];
+            ypre=res["countb"];
+            $("#updatetime").text(res['shijian']);
+            {#console.log(ypre)#}
+            update_mychartnum(xdata,ydata,xpre,ypre);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(getting)
+    {#var timeid=window.setInterval(function(){$.ajax(getting)},1000*60*12);#}
+</script>
+<script type="text/javascript">
+    //xdata={{ x|safe }};
+    //ydata={{ y|safe }};
+
+    var myChartload = echarts.init(document.getElementById('chartplot'));
+    myChartload.setOption(
+        option = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        xAxis: {
+                       axisLine:{
+                show: true,
+                lineStyle: {
+                    color: "white",
+                    width: 2.5,
+
+                }
+            },
+                axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        }
+     },
+            data: []
+        },
+        yAxis: {
+                       axisLine:{
+                show: true,
+                lineStyle: {
+                    color: "white",
+                    width: 2.5,
+
+                }
+            },
+                axisLabel: {
+       show: true,
+        textStyle: {
+          color: 'white',  //更改坐标轴文字颜色
+          fontSize : 15      //更改坐标轴文字大小
+        }
+     },
+            splitLine: {
+                show: false
+            }
+        },
+
+        dataZoom: [{
+            show:false,
+            start:60,
+            end:100
+        }, {
+            type: 'inside'
+        }],
+
+        series: {
+            name: 'WIFI Number',
+            type: 'line',
+            smooth: true,
+            data: [{
+                name:"sachjac",
+                value:[]
+            }
+            ],
+            formatter:function(params){
+                console.log(params);
+            },
+            markLine: {
+                silent: true,
+                data: [{
+                    yAxis: 10
+                }, {
+                    yAxis: 40
+                }, {
+                    yAxis: 100
+                }, {
+                    yAxis: 200
+                }, {
+                    yAxis: 400
+                }]
+            }
+        }
+    });
+    var update_mychartload=function(time,data){
+        var option0=myChartload.getOption();
+
+        option0.series[0].data=data;
+        option0.xAxis[0].data=time;
+{#        console.log('shuju:',data);#}
+        myChartload.setOption(option0);
+    };
+    var gettingload={
+        url:"/plot2_/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            xdata=res["timeload"];
+            ydata=res["countload"];
+            update_mychartload(xdata,ydata);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(gettingload)
+    {#var timeid=window.setInterval(function(){$.ajax(getting)},1000*60*12);#}
+</script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.14/"></script>
+    <script>
+      require(["esri/Map",
+              "esri/views/SceneView",
+              "esri/Graphic",
+              "esri/symbols/TextSymbol3DLayer",
+              "esri/layers/GraphicsLayer",
+              "esri/symbols/PictureMarkerSymbol",
+              "esri/symbols/WebStyleSymbol",
+              "dojo/domReady!"],
+          function(Map,SceneView,Graphic,GraphicsLayer,PictureMarkerSymbol,Point,InfoTemplate,WebStyleSymbol) {
+            var map = new Map({
+                basemap: "hybrid",
+                ground: "world-elevation" //ground指定地图的表面属性，字符串“world-elevation”使用世界高程服务指定地面的一个实例。
+            });
+            var view = new SceneView({
+                container: "viewDiv", // container为容器的意思，这里对将包含视图的DOM节点的引用，就是承载地图的div容器的id。
+                map: map, // 引用我们在上一步中创建的地图对象
+                //scale: 4000, // 设置显示的比例尺的大小
+                zoom: 16.45,
+                center: [102.702149483, 25.057137311],// 设置中心显示的经纬度。这里设置的经纬度为我们大兰州，哈哈
+
+            });
+                        var loads=function(x,y,z,t,ap){
+
+        for(var i=0;i<x.length;i++){
+        city.options.add(new Option(x[i]));
+        var point = {
+            type: "point",
+            longitude: y[i],
+            latitude: z[i]
+          };
+        var flagSymbol = {
+        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "./static/image/red_flag.png",
+        width: 60,
+        height: 60
+        };
+        var simplewarning = {
+      type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "./static/image/baojing.png",
+        width: 60,
+        height: 60
+    };
+        var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: flagSymbol,
+
+        });
+        var pointGraphicwarning = new Graphic({
+            geometry: point,
+            symbol: simplewarning,
+        });
+
+        if(1==t[i]){
+
+        view.graphics.add(pointGraphicwarning);
+         }else{
+             view.graphics.add(pointGraphic)};
+            var textGraphic = new Graphic({
+
+                            geometry: {
+                             type: "point",
+                              longitude: y[i],
+                              latitude: z[i]
+                           },
+                            symbol: {
+                              type: "text",
+                              color: 'white',
+                              haloSize: "1px",
+                              text:"云大"+x[i]+"监测点",
+                              xoffset: 0,
+                              yoffset: -25,
+                              font: {
+                                size: 15
+                             }
+                           }
+                          });
+            view.graphics.add(textGraphic);
+            }
+
+};
+            var pullname=[];
+            var pulllongitude=[];
+              var pulllatitude=[];
+              var addurl=[];
+             var apname=[];
+        $.ajax({
+            url: "/putnode/",
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (res) {
+                x=res['out']
+                pullname=res['name'],
+                pulllongitude=res['longitude'],
+                pulllatitude=res['latitude'],
+                    addurl=res['addurl'],
+                    apname=res['APNAME'],
+                    loads(pullname,pulllongitude,pulllatitude,x,apname)
+            },
+            error:function (e) {
+                    console.log("fail");
+                }
+        });
+
+            $("#city").click(function(){
+              var city=$("#city :selected").val();
+              console.log("city:"+city);
+              //昆明市
+                for(var i=0;i<pullname.length;i++){
+                                  if(city==pullname[i]){
+                                      $("#AP1").text(apname[i][0]);
+                                      $("#AP2").text(apname[i][1]);
+                                      $("#AP3").text(apname[i][2]);
+                    view.goTo({
+                      center: [pulllongitude[i], pulllatitude[i]],
+                        zoom: 20
+                    })
+                  $.ajax({
+    url: "/getnode/",
+    data: {    // JSON格式封装数据
+        'name': 'node'+i,
+        'add': addurl[i],
+        'ku':'xiazai'+i,
+    },
+            type:"post",
+            dataType:"json",
+
+    success: function(result) {
+console.log('切换成功');
+         $.ajax(gettrange);
+         $.ajax(gett2);
+        $('#table_id_example').DataTable().ajax.reload(null, false);
+        $.ajax(getting);
+        $.ajax(gett4);
+        $.ajax(gettingyun1);
+        $.ajax(gettingsixin);
+        $('#APif').DataTable().ajax.reload(null, false); // 刷新表格数据，分页信息不会重置
+        $.ajax(gettxindao);
+        $.ajax(gettingload);
+        $.ajax(gettrssi);
+
+    },
+    fail: function(result) {
+        console.log('切换失败')
+
+    }
+});
+              }
+                }
+
+            });
+var point = {
+            type: "point",
+            longitude: 102.702149483,
+            latitude: 25.057137311
+          };
+  var point1 = {
+type: "point",
+longitude: 102.699009386,
+latitude: 25.057509
+  };
+var flagSymbol = {
+        type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+        url: "./static/image/red_flag.png",
+        width: 60,
+        height: 60
+        };
+var simpleMarkerSymbol = {
+  type: "picture-marker",
+  color: [226, 119, 40],  // orange
+    width: 50,
+      height:50,
+  outline: {
+  color: [255, 255, 255], // white
+
+  }
+};
+var simplewarning = {
+  type: "picture-marker",
+  color:"#E21918" ,  // orange
+    width: 50,
+      height:50,
+  outline: {
+  color: [255, 255, 255], // white
+  width: 1,
+  }
+};
+var attributes = {
+    Name: "My point",  // The name of the
+    Location: " Point Dume State Beach",  // The owner of the
+};
+
+  // Create popup template
+var popupTemplate1 = {
+    title: "云南大学监测点",
+    content: "",
+    width: 250,
+    height: 250,};
+        var pointGraphicwarning = new Graphic({
+            geometry: point,
+            symbol: simplewarning,
+        });
+         var pointGraphic = new Graphic({
+            geometry: point,
+            symbol: flagSymbol,
+
+        });
+var pointGraphic1 = new Graphic({
+    geometry: point1,
+    symbol: flagSymbol,
+
+});
+
+      // Get the screen point from the view's click event
+      view.on("click", function(event) {
+      var screenPoint = {
+        x: event.x,
+        y: event.y
+      };
+        // Search for graphics at the clicked location
+        view.hitTest(screenPoint).then(function(response) {
+          var result = response.results[0];
+console.log('找到点')
+            console.log('event.mapPoint',event.mapPoint)
+          if (result) {
+
+          $.ajax({
+              url:"/download/",
+              type:"post",
+              datatype:"json",
+              success:function(rst){
+
+                 alert("数据刷新成功");
+
+                  $.ajax(gettrange);
+                             $.ajax(gett2);
+        $('#table_id_example').DataTable().ajax.reload(null, false);
+        $.ajax(getting);
+        $.ajax(gett4);
+        $.ajax(gettingyun1);
+        $.ajax(gettingsixin);
+        $('#APif').DataTable().ajax.reload(null, false); // 刷新表格数据，分页信息不会重置
+        $.ajax(gettxindao);
+        $.ajax(gettingload);
+        $.ajax(gettrssi);
+              }
+              });
+
+            var lon = result.mapPoint.longitude;
+            var lat = result.mapPoint.latitude;
+view.popup = {
+  dockEnabled: true,
+  dockOptions: {
+    // Disables the dock button from the popup
+    buttonEnabled: false,
+    // Ignore the default sizes that trigger responsive docking
+    breakpoint: true
+  }
+};
+        view.popup.open({
+            // Set the popup's title to the coordinates of the location
+            title: "云南大学: [" + lon + ", " + lat + "]",
+            location: event.mapPoint, // Set the location of the popup to the clicked location
+            content: "This is a point of interest",  // content displayed in the popup
+
+          });
+        }
+    });
+  });
+    });
+    </script>
+</html>

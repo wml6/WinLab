@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!-- 滚动图 -->
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="border:1px solid black;">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-interval="1500" >
+      <img src="/static/img/1.jpg" class="d-block w-100" alt="" >
+    </div>
+    <div class="carousel-item" data-interval="1500">
+      <img src="/static/img/2.jpg" class="d-block w-100" alt="" >
+    </div>
+    <div class="carousel-item" data-interval="1500">
+      <img src="/static/img/3.jpg" class="d-block w-100" alt="">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<div class="body1">
+    <div class="row">
+    <div class="col-sm-6">
+        <div>
+             <h2 class="title-1">无线创新实验室</h2>
+             <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        </div>
+    </div>
+    <div class="col-sm-6">.col-sm-8</div>
+  </div>
+</div>
+<div class="body2">
+<div class="abouts">
+<h2 class="title-1" style="text-align:center;">项目简介</h2>
+    <p style="text-indent:2em;">本项目是构建一个无线电管理的知识图谱。
+        我们实验室构建无线电管理知识图谱是为了方便专业人员对于无线电管理中相关业务及无线电频率的规则查询和使用。
+        该图谱通过官方给出的无线电业务与频率对应关系以及本实验室实地采集的数据相结合构建的数据库；
+        通过算法对数据库中数据进行处理使之在不同场景下应用。
+    </p>
+</div>
+</div>
+<div class="body3">
+    <div class="row">
+    <div class="col-sm-4">
+        <div class="card border-danger mb-3" style="max-width: 20rem;">
+                <div class="card-header" style="text-align:center;">无线电频率管理目的</div>
+                <div class="card-body">
+                <h4 class="card-title"></h4>
+                <p class="card-text" style="text-indent:2em;">无线电频率的管理工作是一项行政、科学和技术手段相结合的管理。是无线电管理主管部门代表国家对整个无线电频率从宏观上做出统一部署和长远规划。目的是保证无线电通信设备不产生有害干扰，使设备有效地工作。它的目标是使频谱发挥最大效益而干扰最小。一言概之，频率管理就是能有调理地管理和使用无线电频率的全过程。</p>
+                </div>
+            </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-warning mb-3" style="max-width: 20rem;">
+                <div class="card-header" style="text-align:center;">无线电频率管理内容</div>
+                <div class="card-body">
+                <h4 class="card-title"></h4>
+                <p class="card-text" style="text-indent:2em;">无线电频率管理是一个内涵丰富的科学综合体。除此之外，它还包括了对使用频率的台站的管理，对卫星轨道资源和频率的管理，对研制、生产、进口和销售的使用无线电频率的设备的电磁兼容技术指标的管理。还有对本身不使用无线电频率，但会辐射无线电波的非用频装备的选址定点和有害干扰辐射的管理等等。</p>
+                </div>
+            </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card border-info mb-3" style="max-width: 20rem;">
+                <div class="card-header" style="text-align:center;">无线电频率管理发展</div>
+                <div class="card-body">
+                <h4 class="card-title"></h4>
+                <p class="card-text">
+                <ol class="lie">
+                    <li>采用高效频谱利用技术解决频谱资源紧缺问题。</li>
+                    <li>采用有尝化、多样化、市场化的分配策略。</li>
+                    <li>政府通过行政手段加强对已售频谱利用率的监督，与市场机制结合，共同建立更有效的频谱使用的激励和惩罚机制。</li>
+                </ol>
+                </p>
+                </div>
+            </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

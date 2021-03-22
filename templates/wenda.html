@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>语音问答</title>
+    <style type="text/css">
+
+    .image1{
+        width:200px;
+        height:200px;
+        border-radius:200px;
+    }
+html, body {
+    max-width: 100%;
+
+    overflow-x: hidden;
+
+}
+
+    </style>
+</head>
+<body>
+    <!-- 先加载js录音库，注意：你应该把js clone到本地使用 --><meta charset="utf-8" />
+<script src="https://xiangyuecn.github.io/Recorder/recorder.mp3.min.js"></script>
+ <script src="https://xiangyuecn.github.io/Recorder/recorder.wav.min.js"></script>
+ <script src="/static/jq-1.11.js"></script>
+ <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+ <link rel="stylesheet" href="/static/bootstrap4/css/style-starter.css">
+
+<div class="cards__heading" style="background-color: #1da1f2;padding:20px 20px 0px 20px;margin-bottom: 0px;border-radius:0px;" >
+    <div class="row" >
+    <div class="col-4 pr-lg-2 chart-grid">
+            <img class="image1" src="/static/img/lb2.bmp" style="width: 80px;height:80px">
+    </div>
+    <div class="col-8 pr-lg-2 chart-grid" style="height:80px; display:table">
+        <h3 style="color:#f4f4f4; display:table-cell; vertical-align:middle">知识问答</h3>
+    </div>
+
+    </div>
+</div>
+<div class="row" >
+<div class="col-lg-12 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             功能简介
+            </div>
+            <div class="card-body" style="text-align: left">
+             <p style="font-size: 1em;text-indent:2em;">
+                 知识问答功能目前包括通用领域的知识问答和专业领域的知识问答，通用领域的知识问答是指对日常生活中的一些问题进行回答；专业领域知识问答目前包括对无线电设备的一些专业问题进行回答。两个问答模块如下所示：
+             </p>
+            </div>
+
+          </div>
+        </div>
+</div>
+<div class="row" >
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             通用知识问答
+            </div>
+            <div class="card-body" style="text-align: center">
+             <input type="button" class="btn btn btn-info " onclick="startRec()" value="开始提问">
+             <input type="button" class="btn btn btn-info " onclick="uploadRec()" value="结束提问">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             无线电设备知识问答
+            </div>
+            <div class="card-body" style="text-align: center">
+               <input type="button" class="btn btn btn-info " onclick="disp_alert()" value="开始提问" />
+               <input type="button"  class="btn btn btn-info "onclick="disp_alert()" value="结束提问" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+<script>
+var rec;
+function startRec(){
+    rec=Recorder({type:"wav",sampleRate:16000,bitRate:256});//使用默认配置，mp3格式
+    //打开麦克风授权获得相关资源
+    rec.open(function(){
+        //开始录音
+        rec.start();
+    },function(msg,isUserNotAllow){
+        //用户拒绝了权限或浏览器不支持
+        alert((isUserNotAllow?"用户拒绝了权限，":"")+"无法录音:"+msg);
+    });
+};
+</script>
+<script language="javascript" type="text/javascript">
+    function uploadRec(){
+        //停止录音，得到了录音文件blob二进制对象，想干嘛就干嘛
+        rec.stop(function(blob,duration){
+            /*
+            blob文件对象，可以用FileReader读取出内容
+            ，或者用FormData上传，本例直接上传二进制文件
+            ，对于普通application/x-www-form-urlencoded表单上传
+            ，请参考github里面的例子
+            */
+            var form=new FormData();
+            form.append("upfile",blob,"recorder.mp3"); //和普通form表单并无二致，后端接收到upfile参数的文件，文件名为recorder.mp3
+
+            //直接用ajax上传
+            var xhr=new XMLHttpRequest();
+            xhr.open("POST","/wenda/",true);
+             xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status == 200){
+                    autoPlay();
+                }
+            }
+            //这个假地址在控制台network中能看到请求数据和格式，请求结果无关紧要
+            xhr.send(form);
+
+        },function(msg){
+            alert("提问失败:"+msg);
+        });
+
+    };
+</script>
+<script language="javascript" type="text/javascript">
+    function autoPlay() {
+        var mp3Url = "https://120.78.142.50:8899/static/voice/temp.mp3";
+        var audio= new Audio(mp3Url);//这里的路径写上mp3文件在项目中的绝对路径
+        audio.play();
+    }
+</script>
+
+<script type="text/javascript">
+function disp_alert()
+{
+alert("功能还未开放敬请期待。")
+}
+</script>
+</body>
+</html>

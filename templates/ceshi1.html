@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+		#l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
+		#r-result{height:100%;width:20%;float:left;}
+	</style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=dO1vqEKN7HAx7HyBfqhtk9yAfllYuMXb"></script>
+	<title>添加多个标注点</title>
+</head>
+<body>
+<div style="height:100%;overflow: auto">
+   <div style="width:100%;height: 70%">
+	<div id="allmap">
+
+    </div>
+
+</div>
+<div>
+ <div class="form-group" >
+     <div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="width: 450px">
+        <button  type="button" name="button" value="干扰检测" onclick="print();location.reload()" class="btn btn-primary" >5G基站测试</button>
+        <div class="btn-group" role="group" >
+        <select  class="custom-select" id="place" name="place" style="width: 10%;" >
+        <option value="3500,3550,0,3500,3550,102.857366,24.831082,0">卫：3.4-3.6；5G(室外)：3.4-3.6</option>
+        <option value="3500,3550,1,3500,3550,102.706593,25.06037,0">卫：3.4-3.6；5G(室内)：3.4-3.6</option>
+        <option value="3500,3550,0,3601,3650,102.72364,25.089482,0">卫：3.6-3.7；5G(室外)：3.4-3.6</option>
+        <option value="3500,3550,1,3601,3650,102.710026,25.059794,0">卫：3.6-3.7；5G(室内)：3.4-3.6</option>
+        <option value="3500,3550,0,3701,4100,102.710026,25.059794,1">卫(有保护)：3.7-4.2；5G(室外)：3.4-3.6</option>
+        <option value="3500,3550,0,3701,4100,102.706593,25.06037,0">卫：3.7-4.2；5G(室外)：3.4-3.6</option>
+        <option value="4801,4900,0,4501,4550,102.706593,25.06037,0">卫：4.5-4.8；5G(室外)：4.8-4.9</option>
+        <option value="4901,4950,0,4501,4550,102.710026,25.059794,1">卫(有保护)4.5-4.8；5G(室外)：4.9-5</option>
+        <option value="4901,4950,0,4501,4550,102.706593,25.06037,0">卫：4.5-4.8；5G(室外)：4.9-5</option>
+        </select>
+        </div>
+        </div>
+
+ </div>
+
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-primary">受干扰地球站</button>
+        <div class="btn-group" role="group" >
+        <select class="custom-select" onchange="theLocation(this.options[this.options.selectedIndex].value);" style="width: 25%" >
+        {% for k,v in gh.items %}
+        <option value ="{{ v }}" name={{ k }}>{{k }}</option>
+        {% endfor %}
+        </select>
+        </div>
+</div>
+
+
+
+
+
+<style type="text/css">
+/*#container{
+    min-width: 400px;
+    min-height: 280px;
+    border: 2px dotted #000;
+    -moz-border-radius: 8px;
+    background-color:yellow;
+}*/
+</style>
+</div>
+<script type="text/javascript">
+
+
+</script>
+<div>
+
+<style type="text/css">
+
+</style>
+</div>
+
+
+<script type="text/javascript">
+
+
+ function print(){
+   var place= $("#place").find("option:selected").val();
+   var d=place
+   var myarray = d.split(",");
+   var str1="{"+"\""+"5300BH010001"+"\""+":"+"\""+"民航云南空管分局"+","+myarray[3]+","+myarray[4]+","+myarray[5]+","+myarray[6]+","+myarray[7]+"\""+"}"
+   var str="{"+"\""+"X站"+"\""+":"+"\""+"联通"+","+myarray[0]+","+myarray[1]+","+myarray[2]+","+"102.709985,25.060178"+"\""+"}"
+    console.log(myarray)
+      $.ajax({
+              url:"/ceshi1/",
+          data: {    // JSON格式封装数据
+              'jizhan' :str,
+              'baohu':str1
+    },
+              type:"post",
+              datatype:"json",
+                success:function(rst){}})
+
+  }
+</script>
+
+
+<div >
+<style type="text/css">
+#tex1 {
+	margin-top: 13px;
+}
+#tex1 td{
+	background-color:#ffffff;
+	height:25px;
+	line-height:150%;
+}
+.font-center{ text-align:center}
+.btbg{background:#e9faff !important;}
+.btbg2{
+    background:#f3f3f3 !important;
+    text-align:center;
+    }
+.biaoti{
+	font-family: 微软雅黑;
+	font-size: 26px;
+	font-weight: bold;
+	border-bottom:1px dashed #CCCCCC;
+	color: #255e95;
+}
+.titfont {
+
+	font-family: 微软雅黑;
+	font-size: 16px;
+	font-weight: bold;
+	color: #255e95;
+
+	background-color:#e9faff;
+}
+.tabtxt2 {
+	font-family: 微软雅黑;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px;
+	color:#327cd1;
+}
+.tabtxt3 {
+	font-family: 微软雅黑;
+	font-size: 14px;
+	padding-left: 15px;
+	color: #000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 20px;
+}
+</style>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td align="center" class="biaoti" height="60" style="font-size: 1.2rem">5G基站干扰统计表</td>
+  </tr>
+  <tr>
+    <td align="right" height="25">2020-01-02---2020-10-12</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="table table-bordered" align="center" id="tex1">
+  <tr>
+    <td width="15%" height="45px" class="btbg font-center titfont" rowspan="1">5G基站名称</td>
+    <td width="65%" height="45px" class="btbg font-center titfont" rowspan="1">卫星地球站及其距离(单位/m)</td>
+  </tr>
+
+{% for key,value in data.items %}
+  <tr style="text-align:center;">
+    <td>
+        {{ key }}
+    </td>
+    <td>
+        {% for value1 in value %}
+        {{ value1}}
+            {% if value1 >= 0 %};{% else %}:{% endif %}
+        {% endfor %}
+    </td>
+  </tr>
+{% endfor %}
+
+
+
+</table>
+</div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(102.709985,25.060178);
+	map.centerAndZoom(point, 14);
+	map.enableScrollWheelZoom(true);
+
+	// 编写自定义函数,创建标注
+
+
+	function addMarker(point,jl){
+      var myIcon = new BMap.Icon("/static/img/bn.png", new BMap.Size(50,50));
+      var marker = new BMap.Marker(point,{icon:myIcon});
+      var ddd=jl;
+	  map.addOverlay(marker);
+	  marker.addEventListener("click",attribute(point,ddd));
+
+	}
+
+	function addMarker1(point1){
+			var myIcon = new BMap.Icon("/static/img/5G.png", new BMap.Size(50,50));
+	        var marker = new BMap.Marker(point1,{icon:myIcon});
+	        map.addOverlay(marker);
+
+
+	}
+	var bounds = map.getBounds();
+	var sw = bounds.getSouthWest();
+	var ne = bounds.getNorthEast();
+	var lngSpan = Math.abs(sw.lng - ne.lng);
+	var latSpan = Math.abs(ne.lat - sw.lat);
+	// 随机向地图添加25个标注
+    var x;
+    var y;
+    var x1;
+    var y1;
+
+    $.ajax({
+        url:"/plot4/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            x=res['x']
+            y=res['y']
+            x1=res['x1']
+            y1=res['y1']
+            jl=res['jl']
+            for(var i=0;i<x.length;i++){
+                var point = new BMap.Point(x[i], y[i]);
+		addMarker(point,jl[i]);
+            }
+
+            for(i=0;i<x1.length;i++){
+                var point1 = new BMap.Point(x1[i], y1[i]);
+		addMarker1(point1);
+            }
+        },
+        error:function(){
+            console.log("fail");
+        }
+    })
+   function attribute(point,ddd){
+
+		map.addOverlay(new BMap.Circle(point,ddd,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}));
+
+    }
+
+function theLocation(val){
+          var str=val;
+          var numArr = str.match(/-?([1-9]\d*(\.\d*)*|0\.[1-9]\d*)/g)
+          var latitude = numArr[0]
+          var longitude = numArr[1]
+
+          if(latitude!="" && longitude != ""){
+			var new_point = new BMap.Point(longitude,latitude);
+            map.setZoom(15)
+			map.panTo( new_point);
+		}
+
+
+
+	}
+
+</script>

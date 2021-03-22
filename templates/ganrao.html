@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+ <script language="javascript">
+
+  function print(){
+   var a=myform.name.value;
+   var place= $("#place").find("option:selected").val();
+   var d=place
+    console.log(a)
+      $.ajax({
+              url:"/ganrao/",
+          data: {    // JSON格式封装数据
+        'jingweidu': a,
+        'diqu'  :d,
+    },
+              type:"post",
+              datatype:"json",
+              success:function(rst){
+
+                     var getting={
+        url:"/plot2/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+
+            $("#p1").text(res['countload'][0]['name']);
+        },
+        error:function(){
+            console.log("fail");
+        }
+    };
+    $.ajax(getting)
+
+
+              }
+              });
+  }
+
+
+ </script>
+<div id="allmap"></div>
+
+<div id="scl" style="width: 80%;height: 50%;margin-left: 10%">
+ <div class="form-group">
+    <select  class="custom-select" id="place" name="place" >
+      <option value="1">A区</option>
+      <option value="2">B区</option>
+      <option value="3">C区</option>
+    </select>
+ </div>
+ <div class="form-group" >
+     <form name="myform" class="form-inline my-0 mx-0 my-lg-0">
+        <input class="form-control mr-sm-1" name="name" type="text" placeholder="请输入经纬度并用,隔开"  id="nn" style="width: 223px" >
+        <button class="btn btn btn-info " type="button" name="button" value="干扰检测" onclick="print()">干扰检测</button>
+    </form>
+ </div>
+
+ <div style="margin-top: 5px;" class="alert alert-dismissible alert-info">
+ <p id="p1" style="margin-right: 18px" >{{name}}</p>
+ </div>
+ </div>
+
+{% endblock %}

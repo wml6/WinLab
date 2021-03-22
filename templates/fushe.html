@@ -1,0 +1,165 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>电磁辐射</title>
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap4/css/style-starter.css">
+</head>
+<body>
+<style>
+html,body{
+    background-color: #eeeeee;
+}
+
+</style>
+<div class="card card_border p-lg-5 p-3 mb-4">
+      <div class="card-body py-3 p-0">
+        <div class="row">
+          <div class="col-lg-6 align-self pr-lg-4">
+            <h3 class="block__title mb-lg-4">基站电磁辐射</h3>
+            <p class="mb-3" style="font-size: 1.4em;text-indent:2em;">基站电磁辐射与人民群众的健康密切相关,随着无线电应用的增加，无线电基站辐射安全成为大家关注的热点，
+                右图是关于无线电各个方向的应用，本项目根据ITU-T K.52标准计算了 基站的电磁辐射情况，
+                计算条件为：工作频率900MHz、偶极天线、理想导体地面，`p'`=0.413，`r`=0.017 ,计算公式为:</p>
+            <p class="mb-lg-5 mb-3" style="font-size: 1.2em">
+            <span>`S=[EIRP_max(1+p')^2]/[4π(d^2+(h_a-h_b)^2)](1+ra)(tan^-1(d/[h_a-h_b]))^2`</span>
+            </p>
+
+          </div>
+          <div class="col-lg-6 pl-lg-4 mt-lg-0 mt-4">
+            <img src="/static/img/11.png" alt="" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="cards__heading mb-4" >
+      <p style="font-size: 1.2em">
+            <label>输入参数为: </label><span>`h_a`（40-60）,`h_b`（1-2.5）,`a`（0-60）,`EIRP`（1000-3000）</span>,计算结果如下所示，左图表示辐射功率与距离的关系，右表展示辐射功率与距离的关系。</p>
+      <form name="myform" class="form-inline my-0 mx-0 my-lg-0" action="">
+          <label for="ha">`h_a`:</label>
+          <input class="form-control mr-sm-1" name="ha" type="number" placeholder="" min="10" max="100"style="margin-right: 30px">
+          <label for="hb">`h_b`:</label>
+          <input class="form-control mr-sm-1" name="hb" type="number" placeholder="" min="1" max="3"style="margin-right: 30px">
+          <label for="a">`a`:</label>
+          <input class="form-control mr-sm-1" name="a" type="number" placeholder="" min="0" max="60"style="margin-right: 30px">
+          <label for="E">`EIRP`:</label>
+          <input class="form-control mr-sm-1" name="E" type="number" placeholder="" min="1000" max="3500"style="margin-right: 30px">
+          <input class="btn btn btn-info " type="submit" name="quantity" value="输入参数" onclick="print();location.reload()">
+    </form>
+</div>
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             功率/距离关系图
+            </div>
+            <div class="card-body">
+              <!-- bar chart -->
+              <div id="container"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"></div></div>
+                <canvas id="main" width="600" height="360" class="chartjs-render-monitor" style="width: 600px; height: 360px;"></canvas>
+              </div>
+              <!-- //bar chart -->
+            </div>
+            <div class="card-footer text-muted chart-grid__footer">
+              国标（GB8702-88）规定s应小于0.4w/㎡
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header">
+             功率/距离关系表
+            </div>
+            <div class="card-body">
+              <!-- line chart -->
+              <div id="container"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+               <table width="100%" border="0" cellspacing="1" cellpadding="4"  class="table table-bordered" align="center" id="tex1">
+   <tr>
+    <td width="15%" height="45px" class="btbg font-center titfont" rowspan="1" style="text-align:center;font-size: 1.2em">d(m)</td>
+    <td width="65%" height="45px" class="btbg font-center titfont" rowspan="1" style="text-align:center;font-size: 1.2em">s(w/㎡)</td>
+   </tr>
+   {% for key,value in data2.items %}
+    <tr style="text-align:center;font-size: 1.2em">
+    <td>
+        {{ key }}
+    </td>
+    <td>
+        {{ value }}
+    </td>
+    </tr>
+    {% endfor %}
+</table>
+              </div>
+              <!-- //line chart -->
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+
+
+
+
+<script typeof="text/javascript">
+   function print(){
+   var a=myform.ha.value;
+   var b=myform.hb.value;
+   var c=myform.a.value;
+   var d=myform.E.value
+   if(a != ""&&b != ""&&c != ""&&d != "") {
+   var str="{"+"\""+"参数"+"\""+":"+"\""+a+","+b+","+c+","+d+"\""+"}";
+    console.log(str);
+      $.ajax({
+              url:"/fushe/",
+          data: {    // JSON格式封装数据
+
+        'canshu'  :str,
+    },
+              type:"post",
+              datatype:"json",
+                success:function(rst){}})
+     }
+  }
+</script>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [
+                {% for x in data  %}
+                    {{ x }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                ],
+            name:'d(m)',
+            },
+            yAxis: {
+            name:'s(W/㎡)',
+            type: 'value'
+            },
+            series: [{
+            data: [{% for y in data1 %}
+                {{ y }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            type: 'line',
+            smooth: true
+            }]
+            };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+</body>
+</html>

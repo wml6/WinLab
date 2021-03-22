@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+		#l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
+		#r-result{height:100%;width:20%;float:left;}
+	</style>
+	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=dO1vqEKN7HAx7HyBfqhtk9yAfllYuMXb"></script>
+	<title>添加多个标注点</title>
+</head>
+<body>
+<div style="height:100%;overflow: auto">
+   <div style="width:100%;height: 70%">
+	<div id="allmap">
+
+    </div>
+
+</div>
+<div>
+ <div class="form-group" >
+     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+         <a href="/ceshi1/">
+        <button  type="button" name="button" value="干扰检测"  class="btn btn-primary" >5G基站测试</button>
+         </a>
+      </div>
+
+ </div>
+
+ <div class="form-group" >
+     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button  type="button" name="button" value="干扰检测" onclick="print();location.reload()" class="btn btn-primary" >5G基站申报</button>
+        <div class="btn-group" role="group" >
+        <select  class="custom-select" id="place" name="place" style="width: 15%;" >
+        <option value="联通,3500,3600,0,">联通(室外): 3500-3600MHz</option>
+        <option value="电信,3400,3500,0,">电信(室外): 3400-3500MHz</option>
+        <option value="移动,2500,2700,0,">移动(室外): 2500-2700MHz</option>
+        <option value="移动,4800,4900,0,">移动(室外): 4800-4900MHz</option>
+        <option value="联通,3500,3600,1,">联通(室内): 3500-3600MHz</option>
+        <option value="电信,3400,3500,1,">电信(室内): 3400-3500MHz</option>
+        <option value="移动,2500,2700,1,">移动(室内): 2500-2700MHz</option>
+        <option value="移动,4800,4900,1,">移动(室内): 4800-4900MHz</option>
+        </select>
+        </div>
+        </div>
+     <form name="myform" class="form-inline my-0 mx-0 my-lg-0" >
+        <input class="form-control mr-sm-1" name="name" type="text" placeholder="请设置5G基站位置，经纬度用逗号隔开" value="102.709985,25.060178" id="nn" style="width: 300px" >
+     </form>
+
+        <button class="btn btn btn-info" style="text-align:center; background-color: #0069d9" onclick="choosefiles();">
+        5G基站申报表
+        </button>
+
+
+ </div>
+
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-primary">受干扰地球站</button>
+        <div class="btn-group" role="group" >
+        <select class="custom-select" onchange="theLocation(this.options[this.options.selectedIndex].value);" style="width: 25%" >
+
+        {% for k,v in gh.items %}
+        <option value ="{{ v }}" name={{ k }}>{{k }}</option>
+        {% endfor %}
+        </select>
+        </div>
+</div>
+
+
+<div>
+</div>
+<style type="text/css">
+/*#container{
+    min-width: 400px;
+    min-height: 280px;
+    border: 2px dotted #000;
+    -moz-border-radius: 8px;
+    background-color:yellow;
+}*/
+</style>
+</div>
+<script type="text/javascript">
+</script>
+<div>
+
+<style type="text/css">
+
+</style>
+</div>
+
+
+<script type="text/javascript">
+function choosefiles() {
+     alert("您没有该权限，请与管理员联系")
+}
+
+
+
+ function print(){
+   var a=myform.name.value;
+   if(a != "" && a.indexOf(",") > 0) {
+   var place= $("#place").find("option:selected").val();
+   var d=place
+   var str="{"+"\""+"X站"+"\""+":"+"\""+d+a+"\""+"}"
+    console.log(str)
+      $.ajax({
+              url:"/ceshi/",
+          data: {    // JSON格式封装数据
+
+        'fuwu'  :str,
+    },
+              type:"post",
+              datatype:"json",
+                success:function(rst){}})
+     }
+  }
+</script>
+
+
+<div >
+<style type="text/css">
+#tex1 {
+	margin-top: 13px;
+}
+#tex1 td{
+	background-color:#ffffff;
+	height:25px;
+	line-height:150%;
+}
+.font-center{ text-align:center}
+.btbg{background:#e9faff !important;}
+.btbg2{
+    background:#f3f3f3 !important;
+    text-align:center;
+    }
+.biaoti{
+	font-family: 微软雅黑;
+	font-size: 26px;
+	font-weight: bold;
+	border-bottom:1px dashed #CCCCCC;
+	color: #255e95;
+}
+.titfont {
+
+	font-family: 微软雅黑;
+	font-size: 16px;
+	font-weight: bold;
+	color: #255e95;
+
+	background-color:#e9faff;
+}
+.tabtxt2 {
+	font-family: 微软雅黑;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px;
+	color:#327cd1;
+}
+.tabtxt3 {
+	font-family: 微软雅黑;
+	font-size: 14px;
+	padding-left: 15px;
+	color: #000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 20px;
+}
+</style>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td align="center" class="biaoti" height="60" style="font-size: 1.2rem">5G基站干扰统计表</td>
+  </tr>
+  <tr>
+    <td align="right" height="25">2020-01-02---2020-10-12</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="table table-bordered" align="center" id="tex1">
+  <tr>
+    <td width="15%" height="45px" class="btbg font-center titfont" rowspan="1">5G基站名称</td>
+    <td width="65%" height="45px" class="btbg font-center titfont" rowspan="1">卫星地球站及其距离(单位/m)</td>
+  </tr>
+
+{% for key,value in data.items %}
+  <tr style="text-align:center;">
+    <td>
+        {{ key }}
+    </td>
+    <td>
+        {% for value1 in value %}
+        {{ value1}}
+            {% if value1 >= 0 %};{% else %}:{% endif %}
+        {% endfor %}
+    </td>
+  </tr>
+{% endfor %}
+
+
+
+</table>
+</div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(102.715916,25.04607);
+	map.centerAndZoom(point, 14);
+	map.enableScrollWheelZoom(true);
+
+	// 编写自定义函数,创建标注
+
+
+	function addMarker(point){
+      var myIcon = new BMap.Icon("/static/img/bn.png", new BMap.Size(50,50));
+      var marker = new BMap.Marker(point,{icon:myIcon});
+	  map.addOverlay(marker);
+	  marker.addEventListener("click",attribute);
+	}
+
+	function addMarker1(point1){
+			var myIcon = new BMap.Icon("/static/img/5G.png", new BMap.Size(50,50));
+	        var marker = new BMap.Marker(point1,{icon:myIcon});
+	        map.addOverlay(marker);
+
+
+	}
+	var bounds = map.getBounds();
+	var sw = bounds.getSouthWest();
+	var ne = bounds.getNorthEast();
+	var lngSpan = Math.abs(sw.lng - ne.lng);
+	var latSpan = Math.abs(ne.lat - sw.lat);
+	// 随机向地图添加25个标注
+    var x;
+    var y;
+    var x1;
+    var y1;
+
+    $.ajax({
+        url:"/plot3/",
+        type:"get",
+        dataType:"json",
+        success:function(res){
+            x=res['x']
+            y=res['y']
+            x1=res['x1']
+            y1=res['y1']
+            for(i=0;i<x.length;i++){
+                var point = new BMap.Point(x[i], y[i]);
+
+		addMarker(point);
+
+            }
+            for(i=0;i<x1.length;i++){
+                var point1 = new BMap.Point(x1[i], y1[i]);
+
+		addMarker1(point1);
+            }
+        },
+        error:function(){
+            console.log("fail");
+        }
+    })
+    function attribute(e){
+        console.log(e)
+        var p = e.target;
+        var point= new BMap.Point(p.getPosition().lng , p.getPosition().lat);
+		map.addOverlay(new BMap.Circle(point,4000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}));
+		alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
+    }
+
+function theLocation(val){
+          var str=val;
+          var numArr = str.match(/-?([1-9]\d*(\.\d*)*|0\.[1-9]\d*)/g)
+          var latitude = numArr[0]
+          var longitude = numArr[1]
+
+          if(latitude!="" && longitude != ""){
+			var new_point = new BMap.Point(longitude,latitude);
+            map.setZoom(15)
+			map.panTo( new_point);
+		}
+
+
+
+	}
+
+</script>

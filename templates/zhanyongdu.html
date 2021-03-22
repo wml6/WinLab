@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/vue/vue.js"></script>
+    <script src="/static/jq-1.11.js"></script>
+    <script src="/static/bootstrap4/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+    <link rel="stylesheet" href="/static/bootstrap4/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bootstrap4/css/style-starter.css">
+    <title>Echarts 可视化</title>
+    <style type="text/css">
+
+    .image1{
+        width:200px;
+        height:200px;
+        border-radius:200px;
+    }
+
+
+    </style>
+
+</head>
+<body>
+
+
+
+<div class="cards__heading" style="margin-left: 1.7em;margin-right: 1.7em;background-color: #1da1f2;padding:20px 20px 0px 20px;margin-bottom: 0px;border-radius:0px;" >
+    <div class="row" >
+    <div class="col-2 pr-lg-2 chart-grid">
+            <img class="image1" src="/static/img/lb2.bmp" style="width: 100px;height:100px">
+    </div>
+    <div class="col-6 pr-lg-2 chart-grid" style="height:100px; display:table">
+        <h1 style="color:#f4f4f4; display:table-cell; vertical-align:middle">无线电频谱占用度测量</h1>
+    </div>
+    <div class="col-4 pr-lg-2 chart-grid">
+
+    </div>
+    </div>
+</div>
+
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <h3 class="block__title mb-lg-4" style="font-size: 2.5em;">无线电频谱占用度</h3>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">无线电频谱占用度是计量频谱资源利用率的方法。与土地、矿场和水等其他资源计量的客观性不同，无线电频谱资源的利用情况非常复杂，很难精确客观地计量，例如，工信部无（2016379号-9）规范《无线电频率占用度测量要求及方法》规定了信道占用度和频段占用度的测量方法。其中，信道占用度定义为“利用设备对连续的或者离散的信道进行扫描测量，信号幅度大于某一门限电平值的时间与总测量时间的百分比”；频段占用度定义为“在测量时间内，利用设备对某一频段进行信道占用度测量，占用度测量数据大于某一占用度判决门限的信道数与总信道数的百分比”。由此可见测量占用度时，判决门限是关键。然而，对这样一个关键参数的取值问题，规范是这样描述的“一般初始设定为 5dB，可根据测量结果进行调整”。显然，无线电频谱占用度的测量结果除设备性能外，还依赖于测量人员的经验。</p>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">针对这一问题，本项目拟开发了一种基于AI的无线电频率占用度测量方法，其特点是占用度测量结果不依赖于测量人员的经验，便于自动化和智能化测量，为科学计量无线电频谱资源的利用情况提供了一种思路和解决方案。同时，用户通过APP可测量无线电频谱占用情况，这对公众理解无线电频谱，增强频谱保护意识具有重要意义。</p>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <a href="#demo4" data-toggle="collapse" style="font-size: 2.5em;">信号幅度变化图</a>
+             <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">反映某一频率/信道在不同时间的场强/电平变化趋势，或者某一频段在同一时间的场强/电平分布。如果占用度测量时同时记录幅度的最大、最小、均值，可同时比较显示。</p>
+             <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">横轴-时间，纵轴-场强/电平或者横轴-频率，纵轴-场强/电平，颜色代表幅度的最大值、最小值、平均值。</p>
+
+            </div>
+             <div id="demo4" class="collapse" align="center" >
+		<div id="main5" style="width: 681px;height: 400px;display:inline-block"></div>
+    </div>
+            </div>
+          </div>
+        </div>
+
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <a href="#demo" data-toggle="collapse" style="font-size: 2.5em;">时间占用度曲线</a>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">反映某一频率/信道不同时间占用度的变化曲线。</p>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">横轴-时间，纵轴-占用度，时间分辨率取决于占用度测量时的统计时间间隔。</p>
+            </div>
+                <div id="demo" class="collapse ">
+                <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+                    <div id="main1" style="width: 681px;height: 450px;display:inline-block"></div>
+              <!-- //bar chart -->
+                 </div>
+                </div>
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <a href="#demo1" data-toggle="collapse" style="font-size: 2.5em;">频率占用度曲线</a>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">反映某一频段不同频率/信道在所定义时间段内的占用度。</p>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">横轴-频率，纵轴-占用度， 频率分辨率取决于频段扫描时的扫描步进，对于离散信道扫描则为各个离散频率。</p>
+            </div>
+            <div id="demo1" class="collapse">
+            <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+                <div id="main2" style="width: 685px;height: 450px;display:inline-block"></div>
+              <!-- //line chart -->
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">
+        <div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <a href="#demo2" data-toggle="collapse" style="font-size: 2.5em;">占用度光谱图</a>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">用色彩表示频段占用度，反映不同频率/信道在不同时间的占用度变化。</p>
+                <p class="mb-3" style="font-size: 1.4em;text-indent:2em;line-height:30px;">横轴-频率，纵轴-时间，色彩-占用度</p>
+            </div>
+               <div id="demo2" class="collapse">
+                <div class="card-body" style="text-align: center">
+              <!-- bar chart -->
+
+              <div id="main3" style="width: 685px;height: 450px;display:inline-block"></div>
+              <!-- //bar chart -->
+            </div>
+               </div>
+          </div>
+        </div>
+        <div class="col-lg-6 pl-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="left">
+                <a href="#demo3" data-toggle="collapse" style="font-size: 2.5em;" >占用度全景快速显示图</a>
+                <p class="mb-3" style="font-size: 1.2em;text-indent:2em;">横轴-不同时间段（小时），纵轴-不同信道，颜色：根据需要定义的不同等级的占用度。</p>
+            </div>
+              <div id="demo3" class="collapse">
+                <div class="card-body" style="text-align: center">
+              <!-- line chart -->
+                <div id="main4" style="width: 685px;height: 450px;display:inline-block"></div>
+              <!-- //line chart -->
+            </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+<div class="col-lg-6 pr-lg-2 chart-grid">
+          <div class="card text-center card_border">
+            <div class="card-header chart-grid__header" align="right">
+                <p style="font-size: 1.4em;">无线电频谱占用度数据采集地点及时间：云南大学怀周楼 2020-11-5-19</p>
+            </div>
+          </div>
+        </div>
+
+{#<div class="row" style="margin-left: 0.8em;margin-right: 0.8em">#}
+{#        <div class="col-lg-6 pr-lg-2 chart-grid">#}
+{#          <div class="card text-center card_border">#}
+{#            <div class="card-header chart-grid__header">#}
+{#             设备网络通讯标准统计图#}
+{#            </div>#}
+{#            <div class="card-body" style="text-align: center">#}
+{#              <!-- bar chart -->#}
+{#              <div id="main5" style="width: 100%;height: 450px;display:inline-block"></div>#}
+{#              <!-- //bar chart -->#}
+{#            </div>#}
+{##}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="col-lg-6 pl-lg-2 chart-grid">#}
+{#          <div class="card text-center card_border">#}
+{#            <div class="card-header chart-grid__header">#}
+{#             设备占用带宽统计图#}
+{#            </div>#}
+{#            <div class="card-body" style="text-align: center">#}
+{#              <!-- line chart -->#}
+{#                <div id="main6" style="width: 100%;height: 450px;display:inline-block"></div>#}
+{#              <!-- //line chart -->#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+
+
+
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main1'));
+
+        // 指定图表的配置项和数据
+        var option = {
+    legend: {
+        data: ['100Mhz', '90Mhz']
+        },
+    toolbox: {
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        name:"(时)",
+    axisLabel: {
+        interval: 5
+      },
+        type: 'category',
+        boundaryGap: false,
+        data: [{% for t in data30 %}
+                         "{{t}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+    },
+    yAxis: {
+        name:"占用度(100%)",
+        max:100,
+        type: 'value',
+        boundaryGap: [0, '100%']
+    },
+    series: [{
+        name: '100Mhz',
+        data: [{% for tz in data32 %}
+                         "{{tz}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+        type: 'line',
+        smooth: true
+    },
+    {
+            name: '90Mhz',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for tz0 in data34 %}
+                {{ tz0 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        },]
+};
+     myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main2'));
+        // 指定图表的配置项和数据
+        var option = {
+    xAxis: {
+        name:"(频率)",
+        type: 'category',
+
+        axisLabel: {
+            //代表显示所有x轴标签显示
+            rotate:90,
+            interval: 3
+        },
+        data: [{% for pzx in data31 %}
+                         "{{pzx}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+    },
+    yAxis: {
+        max:100,
+        name:"占用度(100%)",
+        type: 'value'
+    },
+    series: [{
+        data: [{% for pz in data33 %}
+                         {{pz}}{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+        type: 'bar'
+    }]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main3'));
+        var pinglv = [{% for t1 in data44 %}
+                         "{{t1}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}];
+        var hours = ['0', '3', '6',
+        '9', '12', '15', '18','21'];
+
+        var data = [
+                {% for pz1 in data43 %}
+                {{ pz1 }},
+                {% endfor %}
+
+            ];
+
+        data = data.map(function (item) {
+            return [item[1], item[0], item[2]];
+        });
+        // 指定图表的配置项和数据
+        var option =  {
+    tooltip: {
+        position: 'top'
+    },
+    animation: false,
+    grid: {
+        height: '60%',
+        top: '10%'
+    },
+    xAxis: {
+        name:"频率",
+        type: 'category',
+        data: pinglv,
+        splitArea: {
+            show: true
+        }
+    },
+    yAxis: {
+        name:"时间",
+        type: 'category',
+        data: hours,
+        splitArea: {
+            show: true
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 100,
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: '10%',
+        inRange: {
+            color: ["#000080", '#0163fb', '#04cafc', '#05fbfc', '#68f59f', '#cdf937', '#e5e623', '#ea6006', "#d52c16",'#ec1408']
+        }
+    },
+    series: [{
+        name: 'Punch Card',
+        type: 'heatmap',
+        data: data,
+        label: {
+            show: true
+        },
+        emphasis: {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        }
+    }]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main4'));
+        var hours = [{% for t1 in data42 %}
+                         "{{t1}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}];
+        var pinglv = ['88.8', '91.8', '98',
+        '99', '100', '105.5', '107'];
+
+        var data = [
+                {% for key1,value1 in data35.items %}
+                [0,{{ key1 }},{{ value1 }}],
+                {% endfor %}
+                {% for key2,value2 in data36.items %}
+                [1,{{ key2 }},{{ value2 }}],
+                {% endfor %}
+                {% for key3,value3 in data37.items %}
+                [2,{{ key3 }},{{ value3 }}],
+                {% endfor %}
+                {% for key4,value4 in data38.items %}
+                [3,{{ key4 }},{{ value4 }}],
+                {% endfor %}
+                {% for key5,value5 in data39.items %}
+                [4,{{ key5 }},{{ value5 }}],
+                {% endfor %}
+                {% for key6,value6 in data40.items %}
+                [5,{{ key6 }},{{ value6 }}],
+                {% endfor %}
+                {% for key7,value7 in data41.items %}
+                [6,{{ key7 }},{{ value7 }}],
+                {% endfor %}
+            ];
+
+        data = data.map(function (item) {
+            return [item[1], item[0], item[2]];
+        });
+        // 指定图表的配置项和数据
+        var option =  {
+    tooltip: {
+        position: 'top'
+    },
+    animation: false,
+    grid: {
+        height: '60%',
+        top: '10%'
+    },
+    xAxis: {
+        name:"时间",
+        type: 'category',
+        data: hours,
+        splitArea: {
+            show: true
+        }
+    },
+    yAxis: {
+        name:"频率",
+        type: 'category',
+        data: pinglv,
+        splitArea: {
+            show: true
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 100,
+        calculable: true,
+        orient: 'horizontal',
+        left: 'center',
+        bottom: '10%',
+        inRange: {
+            color: ["#04fc0a","#fefc07",'#eb0712','#eb0712', '#eb0712',  '#eb0712','#eb0712','#eb0712','#eb0712', '#eb0712']
+        }
+    },
+    series: [{
+        name: 'Punch Card',
+        type: 'heatmap',
+        data: data,
+        label: {
+            show: true
+        },
+        emphasis: {
+            itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        }
+    }]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+
+
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main5'));
+        // 指定图表的配置项和数据
+        var option =  {
+            legend: {
+        data: ['平均值', '最大值','最小值']
+        },
+    toolbox: {
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    xAxis: {
+        name:"频率",
+        type: 'category',
+        data: [{% for t1 in data44 %}
+                         {{t1}}{% if not forloop.last %}, {% endif %}
+                     {% endfor %}]
+    },
+      yAxis: {
+        name:"场强",
+        max:100,
+        type: 'value',
+        boundaryGap: [0, '100%']
+    },
+    series: [{
+        name: '平均值',
+        data: [{% for pjz in data45 %}
+                         "{{pjz}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+        type: 'line',
+        smooth: true
+    },
+    {
+            name: '最大值',
+            type: 'line',
+            smooth: true,
+
+            data: [{% for max in data46 %}
+                {{ max }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}]
+        },{
+        name: '最小值',
+        data: [{% for min in data47 %}
+                         "{{min}}"{% if not forloop.last %}, {% endif %}
+                     {% endfor %}],
+        type: 'line',
+        smooth: true
+    },]
+};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script>
+</body>
+</html>

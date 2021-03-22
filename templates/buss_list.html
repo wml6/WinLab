@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>
+  <a type="button" style="margin: 0px 9px ;" class="btn btn-info btn-sm" href="/buss/">返 回</a>
+</div>
+<div>
+  <button type="button" class="btn btn-outline-secondary" style="margin: 9px;" v-for="n in list" :key="n.key"
+    @click="toReta(n)">
+    ${n.title}
+  </button>
+</div>
+<!-- <div class="card cardBox" v-for="n in list" :key="n.key" @click="toReta(n)">
+  <div class="card-body">
+    <div>业务: ${n.title}</div>
+  </div>
+</div> -->
+<div class="content_list reta_list" v-if="retaObj.isShow">
+  <div class="card" :style="isMobile?'width: 96%;':'width:60%'">
+    <div class="card-body">
+      <div style="text-align: center;">
+        <button type="button" class="btn btn-danger btn-sm" @click="retaObj.isShow=false">关 闭</button>
+      </div>
+      <div class="card" style="margin: 9px 0px;" v-for="n in retaObj.list" :key="n">
+        <div class="card-body" style="background-color:	#F8F8F8">
+          <div>频率: ${n}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
